@@ -1,15 +1,22 @@
 {
-  description = "A very basic flake";
+  description = "Nix flake for the Scroll Window Manager (based on Sway)";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs?ref=nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs }: {
+  outputs = { self, nixpkgs }:
+  let
+    system = "x86_64-linux";
+  in
+  {
+    packages.${system} = {
+      "scroll-stable" = (import nixpkgs {
+        inherit system;
+        overlays = [(import ./overlay.nix)];
+      }).sway-unwrapped;
 
-    packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
-
-    packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
-
+      default = self.packages.${system}."scroll-stable";
+    };
   };
 }
