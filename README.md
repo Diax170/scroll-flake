@@ -55,7 +55,6 @@ Using them is as simple as adding a normal package:
 ```
 
 ## TODO
-- [ ] Use flake-utils to add other system architecture outputs
 - [ ] Create a NixOS/Home Manager module for enabling scroll alongside other packages.
 - [ ] Add master package of scroll to the flake
 

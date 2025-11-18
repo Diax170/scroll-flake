@@ -7,16 +7,19 @@
 
   outputs = { self, nixpkgs }:
   let
-    system = "x86_64-linux";
+    eachSystem = nixpkgs.lib.genAttrs [
+      "x86_64-linux"
+      "aarch64-linux"
+    ];
   in
   {
-    packages.${system} = {
+    packages = eachSystem (system: {
       "scroll-stable" = (import nixpkgs {
         inherit system;
         overlays = [(import ./overlay.nix)];
       }).sway-unwrapped;
 
       default = self.packages.${system}."scroll-stable";
-    };
+    });
   };
 }
