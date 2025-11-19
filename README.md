@@ -4,14 +4,12 @@ This flake contains NixOS packages for [scroll](https://github.com/dawsers/scrol
 This concept should already be familliar to users of PaperWM, niri or other projects.
 
 ## Usage
-Add this repository to your current flake like so:
+Just add this repository to your current flake, here's an example on how you could do that:
 
 ```nix
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-
-    # ... other inputs
 
     scroll-flake = {
       url = "git+https://codeberg.org/asahirocks/scroll-flake";
@@ -19,8 +17,11 @@ Add this repository to your current flake like so:
     };
   };
   
-  outputs = { self, nixpkgs, scroll-flake }: { # <-- make sure to add it here as well
-    # ... rest of your flake
+  outputs = inputs@{ self, nixpkgs }: { # <-- make sure to expose inputs (the `inputs@` thing)...
+    nixosConfigurations.example = nixpkgs.lib.nixosSystem {
+      modules = [ ./configuration.nix ];
+      specialArgs = { inherit inputs; }; # <-- ...and actually pass them to the modules
+    };
   }
 }
 ```
@@ -34,12 +35,12 @@ Using them is as simple as adding a normal package:
 ```nix
 {
   pkgs,
-  scroll-flake, # <-- import the input here
+  inputs, # <-- import the inputs here
   ...
 }:
 {
   environment.systemPackages = with pkgs; [
-    scroll-flake.packages."x86_64-linux".default
+    inputs.scroll-flake.packages."x86_64-linux".default
     
     # you may want to grab some extra goodies
     kitty
