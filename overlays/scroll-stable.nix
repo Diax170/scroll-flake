@@ -15,8 +15,5 @@ final: prev: {
     buildInputs = old.buildInputs ++ [
       prev.lua54Packages.lua
     ];
-
-    # expose scroll session to session managers
-    passthru.providedSessions = [ "scroll" ];
   });
 }

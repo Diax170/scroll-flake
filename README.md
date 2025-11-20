@@ -47,6 +47,9 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
 
 ```nix
 {
+  ...
+}:
+{
   programs.scroll.enable = true;
 }
 ```
