@@ -87,7 +87,6 @@ Using them is as simple as adding a normal package:
 ```
 
 ## TODO
-- [ ] Move the repository source for the package to the flake inputs for easier updating
 - [ ] Package the git version of scroll
 - [ ] Finish the NixOS module
 - [ ] Create a Home Manager module

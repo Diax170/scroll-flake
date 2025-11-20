@@ -3,9 +3,14 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+
+    scroll-stable = {
+      url = "git+https://github.com/dawsers/scroll?ref=refs/tags/1.11.8";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs }:
+  outputs = inputs@{ self, nixpkgs, ... }:
   let
     eachSystem = nixpkgs.lib.genAttrs [
       "x86_64-linux"
@@ -16,7 +21,7 @@
     packages = eachSystem (system: {
       "scroll-stable" = (import nixpkgs {
         inherit system;
-        overlays = [(import ./overlays/scroll-stable.nix)];
+        overlays = [(import ./overlays/scroll-stable.nix { inherit inputs; })];
       }).sway-unwrapped;
 
       default = self.packages.${system}."scroll-stable";
