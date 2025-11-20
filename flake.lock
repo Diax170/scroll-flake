@@ -19,7 +19,25 @@
     "root": {
       "inputs": {
         "nixpkgs": "nixpkgs",
+        "scroll-git": "scroll-git",
         "scroll-stable": "scroll-stable"
+      }
+    },
+    "scroll-git": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1763654399,
+        "narHash": "sha256-RPFqJIdN1gsplRch3hIeEt4A2x5lwAp96J1SrobyB+M=",
+        "ref": "master",
+        "rev": "70af062f4b3685bfad85fbc567896cebff867eb1",
+        "revCount": 7936,
+        "type": "git",
+        "url": "https://github.com/dawsers/scroll"
+      },
+      "original": {
+        "ref": "master",
+        "type": "git",
+        "url": "https://github.com/dawsers/scroll"
       }
     },
     "scroll-stable": {

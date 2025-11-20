@@ -8,6 +8,11 @@
       url = "git+https://github.com/dawsers/scroll?ref=refs/tags/1.11.8";
       flake = false;
     };
+
+    scroll-git = {
+      url = "git+https://github.com/dawsers/scroll?ref=master";
+      flake = false;
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, ... }:
@@ -22,6 +27,11 @@
       "scroll-stable" = (import nixpkgs {
         inherit system;
         overlays = [(import ./overlays/scroll-stable.nix { inherit inputs; })];
+      }).sway-unwrapped;
+
+      "scroll-git" = (import nixpkgs {
+        inherit system;
+        overlays = [(import ./overlays/scroll-git.nix { inherit inputs; })];
       }).sway-unwrapped;
 
       default = self.packages.${system}."scroll-stable";

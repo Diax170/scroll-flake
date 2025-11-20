@@ -22,7 +22,7 @@ To get started, just simply add the repository to your flake inputs:
 ```
 
 ## NixOS Module
-The NixOS module is still a work-in-progress, but right now you can use it to easily install the scroll package on your system.
+The NixOS module is still a work-in-progress, but for now you can use it to easily install the scroll package on your system.
 
 Firstly, you need to import the scroll-flake module in your NixOS configuration's flake:
 
@@ -43,29 +43,37 @@ Firstly, you need to import the scroll-flake module in your NixOS configuration'
 }
 ```
 
-Now, you can use the scroll module anywhere in your configuration! Here's an example config that enables scroll:
+Now, you can use the scroll module anywhere in your configuration! Here's an example config that enables the git version of scroll:
 
 ```nix
 {
+  inputs,
   ...
 }:
 {
-  programs.scroll.enable = true;
+  programs.scroll = {
+    enable = true;
+    package = inputs.scroll-flake.packages.${pkgs.stdenv.hostPlatform.system}.scroll-git;
+  };
 }
 ```
 
 ## Package
 
-The input also exposes 2 package names, if you wish to install manually:
-- `default` – same as using "scroll-stable"
-- `scroll-stable` – the latest tagged release of scroll (currently "1.11.8")
+The input also exposes 3 package names, if you wish to install them manually:
+- `default` — same as using "scroll-stable"
+- `scroll-stable` — the latest tagged release of scroll (currently "1.11.8")
+- `scroll-git` — the git (master branch) version of scroll
+  
+  > **Warning**
+  > This package may not be always up-to-date, since I would have to manually update the flake's lock file every time there's a new commit in upstream. Eventually, I plan to move this repo to GitHub, so that I can benefit from using actions to automatically update the flake for me.
 
 Using them is as simple as adding a normal package:
 
 ```nix
 {
   pkgs,
-  inputs, # <-- don't forget to import inputs here!
+  inputs,
   ...
 }:
 {
@@ -87,7 +95,6 @@ Using them is as simple as adding a normal package:
 ```
 
 ## TODO
-- [ ] Package the git version of scroll
 - [ ] Finish the NixOS module
 - [ ] Create a Home Manager module
 
