@@ -16,10 +16,12 @@
     packages = eachSystem (system: {
       "scroll-stable" = (import nixpkgs {
         inherit system;
-        overlays = [(import ./overlay.nix)];
+        overlays = [(import ./overlays/scroll-stable.nix)];
       }).sway-unwrapped;
 
       default = self.packages.${system}."scroll-stable";
     });
+
+    nixosModules.default = import ./modules/nixos.nix { inherit self; };
   };
 }

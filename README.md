@@ -1,5 +1,5 @@
 # scroll-flake
-This flake contains NixOS packages for [scroll](https://github.com/dawsers/scroll), which is a fork of Sway (an i3-compatible Wayland compositor) with a scrollable tiling layout. 
+This flake contains NixOS packages for [scroll](https://github.com/dawsers/scroll), which is a fork of Sway (an i3-compatible Wayland compositor) with a scrolling tiling layout.
 
 This concept should already be familliar to users of PaperWM, niri or other projects.
 
