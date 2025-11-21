@@ -1,0 +1,28 @@
+name: "flake_update"
+
+on:
+  workflow_run:
+    workflows: ["trigger"]
+    types: [completed]
+
+  workflow_dispatch:
+
+jobs:
+  update: # updates flake.lock automatically
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      id-token: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/determinate-nix-action@v3
+      - uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "flake: update lock file"
+          pr-labels: |
+            dependencies
+            automated
