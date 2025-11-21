@@ -1,7 +1,7 @@
 # scroll-flake
 This flake contains NixOS packages & modules for [scroll](https://github.com/dawsers/scroll), which is a fork of Sway (an i3-compatible Wayland compositor) with a scrolling tiling layout.
 
-This concept should already be familliar to users of PaperWM, niri or other projects. If not, however, you can watch this great video by Brodie Robertson explaining the concept [here](https://youtu.be/r0JUm77inIA).
+This concept should already be familliar to users of PaperWM, niri or other projects. If not, however, you can watch this great video by Brodie Robertson explaining the concept [here](https://www.youtube.com/watch?v=r0JUm77inIA).
 
 ## Installation
 To get started, just simply add the repository to your flake inputs:
@@ -12,7 +12,7 @@ To get started, just simply add the repository to your flake inputs:
     # ... other inputs
 
     scroll-flake = {
-      url = "git+https://codeberg.org/asahirocks/scroll-flake";
+      url = "github:AsahiRocks/scroll-flake";
       inputs.nixpkgs.follows = "nixpkgs"; # this assumes nixos unstable
     };
   };
@@ -61,12 +61,12 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
 ## Package
 
 The input also exposes 3 package names, if you wish to install them manually:
-- `default` — same as using "scroll-stable"
-- `scroll-stable` — the latest tagged release of scroll (currently "1.11.8")
-- `scroll-git` — the git (master branch) version of scroll
+- 📦 `default` — same as using "scroll-stable"
+- 📦 `scroll-stable` — the latest tagged release of scroll (currently "1.11.8")
+- 📦 `scroll-git` — the git (master branch) version of scroll
   
-  > **Warning**
-  > This package may not be always up-to-date, since I would have to manually update the flake's lock file every time there's a new commit in upstream. Eventually, I plan to move this repo to GitHub, so that I can benefit from using actions to automatically update the flake for me.
+> [!WARNING]
+> Until I implement proper CI testing, the git package may occasionally break (e.g. when a new dependency gets added in upstream and I haven't modified the overlay yet). If this doesn't get fixed within 1-2 days, you're allowed to yell at me.
 
 Using them is as simple as adding a normal package:
 
@@ -95,6 +95,7 @@ Using them is as simple as adding a normal package:
 ```
 
 ## TODO
+- [ ] Implement CI testing for building the package from master branch
 - [ ] Finish the NixOS module
 - [ ] Create a Home Manager module
 
