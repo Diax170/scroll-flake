@@ -21,8 +21,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: DeterminateSystems/determinate-nix-action@v3
       - uses: DeterminateSystems/update-flake-lock@main
-        with:
-          pr-title: "flake: update lock file"
-          pr-labels: |
-            dependencies
-            automated
+        id: update
+      - run: "gh pr merge --auto --merge ${{ steps.update.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
