@@ -2,7 +2,7 @@ name: "flake_update"
 
 on:
   workflow_run:
-    workflows: ["trigger"]
+    workflows: ["flake_update"]
     types: [completed]
 
   workflow_dispatch:
