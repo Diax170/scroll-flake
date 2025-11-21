@@ -16,5 +16,5 @@ jobs:
       - name: fetch
         run: |
           #!/usr/bin/env bash
-          url="https://api.github.com/repos/dawsers/scroll/commits/REL1_36"
+          url="https://api.github.com/repos/dawsers/scroll/commits/master"
           exit $(curl -s $url | jq -r "((now - (.commit.author.date | fromdateiso8601) )  / (60*60*24)  | trunc)")
