@@ -2,7 +2,7 @@ name: "flake_update"
 
 on:
   workflow_run:
-    workflows: ["flake_update"]
+    workflows: ["fetch_upstream"]
     types: [completed]
 
   workflow_dispatch:
