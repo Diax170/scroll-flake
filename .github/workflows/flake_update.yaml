@@ -7,15 +7,15 @@ on:
 
   workflow_dispatch:
 
+permissions:
+  contents: write
+  id-token: write
+  issues: write
+  pull-requests: write
+
 jobs:
   update: # update flake.lock
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: write
-      id-token: write
-      issues: write
-      pull-requests: write
     
     outputs:
       pr-number: ${{ steps.update.outputs.pull-request-number }}
@@ -42,6 +42,7 @@ jobs:
     needs: [update,test]
 
     steps:
+      - uses: actions/checkout@v4
       - run: "gh pr merge --auto --merge ${{ needs.update.outputs.pr-number }}"
         env:
           GH_TOKEN: ${{ github.token }}
