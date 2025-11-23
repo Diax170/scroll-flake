@@ -10,7 +10,7 @@ jobs:
   check: # checks for new commits in upstream
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # https://stackoverflow.com/questions/65499626/trigger-github-actions-if-push-in-another-repo
       - name: fetch
