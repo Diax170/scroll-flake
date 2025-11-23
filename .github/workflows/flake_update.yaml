@@ -16,6 +16,9 @@ jobs:
       id-token: write
       issues: write
       pull-requests: write
+    
+    outputs:
+      pr-number: ${{ steps.update.outputs.pull-request-number }}
 
     steps:
       - uses: actions/checkout@v4
@@ -36,9 +39,10 @@ jobs:
   
   merge: # merge the pull request
     runs-on: ubuntu-latest
+    needs: update
     needs: test
 
     steps:
-      - run: "gh pr merge --auto --merge ${{ steps.update.outputs.pull-request-number }}"
+      - run: "gh pr merge --auto --merge ${{ needs.update.outputs.pr-number }}"
         env:
           GH_TOKEN: ${{ github.token }}
