@@ -39,8 +39,7 @@ jobs:
   
   merge: # merge the pull request
     runs-on: ubuntu-latest
-    needs: update
-    needs: test
+    needs: [update,test]
 
     steps:
       - run: "gh pr merge --auto --merge ${{ needs.update.outputs.pr-number }}"
