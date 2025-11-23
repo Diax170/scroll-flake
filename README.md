@@ -65,9 +65,6 @@ The input also exposes 3 package names, if you wish to install them manually:
 - 📦 `default` — same as using "scroll-stable"
 - 📦 `scroll-stable` — the latest tagged release of scroll (currently "1.12")
 - 📦 `scroll-git` — the git (master branch) version of scroll, which gets automatically rebased daily
-  
-> [!WARNING]
-> Until I implement proper CI testing, the git package may very occasionally break (e.g. when a new dependency gets added in upstream and I haven't modified the overlay yet). If this doesn't get fixed within 1-2 days, you're allowed to yell at me.
 
 Using them is as simple as adding a normal package:
 
@@ -96,7 +93,6 @@ Using them is as simple as adding a normal package:
 ```
 
 ## TODO
-- [ ] Implement CI testing for building the package from master branch
 - [ ] Finish the NixOS module
   - [ ] Wrap the scroll packages similarily to Sway in Nixpkgs
   - [ ] Add rest of the options
