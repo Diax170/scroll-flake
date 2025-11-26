@@ -2,11 +2,11 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1763835633,
-        "narHash": "sha256-HzxeGVID5MChuCPESuC0dlQL1/scDKu+MmzoVBJxulM=",
+        "lastModified": 1763966396,
+        "narHash": "sha256-6eeL1YPcY1MV3DDStIDIdy/zZCDKgHdkCmsrLJFiZf0=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "050e09e091117c3d7328c7b2b7b577492c43c134",
+        "rev": "5ae3b07d8d6527c42f17c876e404993199144b6a",
         "type": "github"
       },
       "original": {
@@ -26,11 +26,11 @@
     "scroll-git": {
       "flake": false,
       "locked": {
-        "lastModified": 1763991603,
-        "narHash": "sha256-DZ+XFcX0HLtpWehJvWqSEsoW6FzPZe1Iq574ECzIQ8M=",
+        "lastModified": 1764107075,
+        "narHash": "sha256-DjlTcOjhnrP4bbUxsFjiZaQ6dM+rH1gehVHQ75U/hEY=",
         "ref": "master",
-        "rev": "6c639698cb7b1fc607337d82cce296c63debaff4",
-        "revCount": 7952,
+        "rev": "ebfd98460b01572f45869eba449c2a53ed44d8f4",
+        "revCount": 7956,
         "type": "git",
         "url": "https://github.com/dawsers/scroll"
       },
