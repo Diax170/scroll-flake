@@ -26,11 +26,11 @@
     "scroll-git": {
       "flake": false,
       "locked": {
-        "lastModified": 1764808250,
-        "narHash": "sha256-eSd/dVL0YG69bNid1y6DNt5jnSL5KjfHWXi6UwYDB+A=",
+        "lastModified": 1764840167,
+        "narHash": "sha256-Re15atdmvD+bQl5XazvIS7pD9iiAWRrygityY9QcBwM=",
         "ref": "master",
-        "rev": "1038637949e2305468861085e1ed72d41e5042e9",
-        "revCount": 7997,
+        "rev": "348c9b12979688f6eb796c0b6411c42b33b1f50a",
+        "revCount": 7998,
         "type": "git",
         "url": "https://github.com/dawsers/scroll"
       },
@@ -43,16 +43,16 @@
     "scroll-stable": {
       "flake": false,
       "locked": {
-        "lastModified": 1763733823,
-        "narHash": "sha256-ynptnYKS1lywnq+5nXIruvOFWRBzx7r+Xj1JAXU7X+Y=",
-        "ref": "refs/tags/1.12",
-        "rev": "0496d0e07fcf3f1c995db88334edc648050b8809",
-        "revCount": 7943,
+        "lastModified": 1764842281,
+        "narHash": "sha256-DBXRF1gG+g3F43oF1M+1W/b1vFp8QnI7IhtWQWD+xIc=",
+        "ref": "refs/tags/1.12.1",
+        "rev": "91471028e58afd5ffadfe95ea47d0f76da278024",
+        "revCount": 8000,
         "type": "git",
         "url": "https://github.com/dawsers/scroll"
       },
       "original": {
-        "ref": "refs/tags/1.12",
+        "ref": "refs/tags/1.12.1",
         "type": "git",
         "url": "https://github.com/dawsers/scroll"
       }
