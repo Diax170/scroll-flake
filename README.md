@@ -94,7 +94,6 @@ Using them is as simple as adding a normal package:
 
 ## TODO
 - [ ] Finish the NixOS module
-  - [ ] Wrap the scroll packages similarily to Sway in Nixpkgs
   - [ ] Add rest of the options
 - [ ] Create a Home Manager module
 

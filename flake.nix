@@ -27,12 +27,12 @@
       "scroll-stable" = (import nixpkgs {
         inherit system;
         overlays = [(import ./overlays/scroll-stable.nix { inherit inputs; })];
-      }).sway-unwrapped;
+      }).sway;
 
       "scroll-git" = (import nixpkgs {
         inherit system;
         overlays = [(import ./overlays/scroll-git.nix { inherit inputs; })];
-      }).sway-unwrapped;
+      }).sway;
 
       default = self.packages.${system}."scroll-stable";
     });
