@@ -22,9 +22,9 @@ To get started, just simply add the repository to your flake inputs:
 ```
 
 ## NixOS Module
-The NixOS module is still in testing, but you should be able to use it to enable scroll and configure some basic options.
+A NixOS module is available that provides an easy way to enable scroll, and additionally configure some basic options.
 
-Firstly, you need to import the scroll-flake module in your NixOS configuration's flake:
+If you wish to use it, you need to first import the scroll-flake module in your NixOS configuration's flake:
 
 ```nix
 {
@@ -56,7 +56,7 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
     enable = true;
     package = inputs.scroll-flake.packages.${pkgs.stdenv.hostPlatform.system}.scroll-git;
 
-    # See a full list of recommended environment variables here:
+    # Commands executed before scroll gets launched, see more examples here:
     # https://github.com/dawsers/scroll#environment-variables
     extraSessionCommands = ''
       # Tell QT, GDK and others to use the Wayland backend by default, X11 if not available
@@ -73,25 +73,9 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
       # Configure Electron to use Wayland instead of X11
       export ELECTRON_OZONE_PLATFORM_HINT=wayland
     '';
-
-    extraOptions = [
-      "--verbose"
-    ];
-
-    # The module already preinstalls some useful packages. Setting this will overwrite them.
-    extraPackages = with pkgs; [
-      brightnessctl
-      alacritty
-      grim
-      swaybg
-      wmenu
-      xdg-desktop-portal
-      xdg-desktop-portal-gtk
-      xdg-desktop-portal-wlr
-    ];
   };
 
-  # enable pipewire for screencasting and audio server
+  # Enable Pipewire for screencasting and audio server
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -101,6 +85,10 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
   };
 }
 ```
+
+> [!NOTE]
+> For the time being, there is no proper documentation being generated for the options.
+> So, to see them all, you need to read the source code for the [NixOS module](./modules/nixos.nix).
 
 ## Package
 

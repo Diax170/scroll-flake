@@ -109,7 +109,7 @@ in
 
     extraPackages = lib.mkOption {
       type = with lib.types; listOf package;
-      # Packages used in default config + ones recommended by the readme
+      # Packages used in default config + portals recommended by the readme
       default = with pkgs; [
         brightnessctl
         kitty
@@ -162,8 +162,7 @@ in
         environment = {
           systemPackages = lib.optional (cfg.package != null) cfg.package ++ cfg.extraPackages;
 
-          # include the default sway wallpapers because they're still here
-          # for some reason (i should ask dawsers about this)
+          # include the default sway wallpapers because they're still here idk
           pathsToLink = lib.optional (cfg.package != null) "/share/backgrounds/scroll";
 
           etc = {
@@ -201,11 +200,13 @@ in
         };
       }
 
-      # for some reason enabling this makes my greetd start slower and waybar just peace out completely
-      #(import (modulesPath + "/programs/wayland/wayland-session.nix") {
-      #  inherit lib pkgs;
-      #  enableXWayland = cfg.xwayland.enable;
-      #})
+      (import (modulesPath + "/programs/wayland/wayland-session.nix") {
+        inherit lib pkgs;
+        enableXWayland = cfg.xwayland.enable;
+
+        # enabling this may cause some random issues
+        enableWlrPortal = false;
+      })
     ]
   );
 }
