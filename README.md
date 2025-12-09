@@ -22,7 +22,7 @@ To get started, just simply add the repository to your flake inputs:
 ```
 
 ## NixOS Module
-The NixOS module is still a work-in-progress, but for now you can use it to easily install the scroll package on your system.
+The NixOS module is still in testing, but you should be able to use it to enable scroll and configure some basic options.
 
 Firstly, you need to import the scroll-flake module in your NixOS configuration's flake:
 
@@ -43,7 +43,7 @@ Firstly, you need to import the scroll-flake module in your NixOS configuration'
 }
 ```
 
-Now, you can use the scroll module anywhere in your configuration! Here's an example config that enables the git version of scroll:
+Now, you can use the scroll module anywhere in your configuration! Here's an example config that enables the git version of scroll alongside some other options:
 
 ```nix
 {
@@ -55,6 +55,49 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
   programs.scroll = {
     enable = true;
     package = inputs.scroll-flake.packages.${pkgs.stdenv.hostPlatform.system}.scroll-git;
+
+    # See a full list of recommended environment variables here:
+    # https://github.com/dawsers/scroll#environment-variables
+    extraSessionCommands = ''
+      # Tell QT, GDK and others to use the Wayland backend by default, X11 if not available
+      export QT_QPA_PLATFORM="wayland;xcb"
+      export GDK_BACKEND="wayland,x11"
+      export SDL_VIDEODRIVER=wayland
+      export CLUTTER_BACKEND=wayland
+
+      # XDG desktop variables to set scroll as the desktop
+      export XDG_CURRENT_DESKTOP=scroll
+      export XDG_SESSION_TYPE=wayland
+      export XDG_SESSION_DESKTOP=scroll
+
+      # Configure Electron to use Wayland instead of X11
+      export ELECTRON_OZONE_PLATFORM_HINT=wayland
+    '';
+
+    extraOptions = [
+      "--verbose"
+    ];
+
+    # The module already preinstalls some useful packages. Setting this will overwrite them.
+    extraPackages = with pkgs; [
+      brightnessctl
+      alacritty
+      grim
+      swaybg
+      wmenu
+      xdg-desktop-portal
+      xdg-desktop-portal-gtk
+      xdg-desktop-portal-wlr
+    ];
+  };
+
+  # enable pipewire for screencasting and audio server
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    pulse.enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
   };
 }
 ```
@@ -75,26 +118,15 @@ Using them is as simple as adding a normal package:
   ...
 }:
 {
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = [
     # scroll package (replace `default` with whatever package name above)
     inputs.scroll-flake.packages.${pkgs.stdenv.hostPlatform.system}.default
-    
-    # you may want to grab some extra goodies
-    kitty
-    wmenu
-    swaybg
-    swayidle
-    swaylock
-    grim
-    brightnessctl
-    pulseaudio
   ];
 }
 ```
 
 ## TODO
-- [ ] Finish the NixOS module
-  - [ ] Add rest of the options
+- [ ] Generate documentation from NixOS module
 - [ ] Create a Home Manager module
 
 ## License
