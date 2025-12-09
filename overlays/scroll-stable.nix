@@ -2,6 +2,7 @@
 final: prev: {
   sway-unwrapped = prev.sway-unwrapped.overrideAttrs (old: {
     src = inputs.scroll-stable;
+    meta.mainProgram = "scroll";
 
     patches = [];
 
