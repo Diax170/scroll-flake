@@ -94,7 +94,7 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
 
 The input also exposes 3 package names, if you wish to install them manually:
 - 📦 `default` — same as using "scroll-stable"
-- 📦 `scroll-stable` — the latest tagged release of scroll (currently "1.12.2")
+- 📦 `scroll-stable` — the latest tagged release of scroll (currently "1.12.3")
 - 📦 `scroll-git` — the git (master branch) version of scroll, which gets automatically rebased daily
 
 Using them is as simple as adding a normal package:
