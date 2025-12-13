@@ -88,7 +88,9 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
 
 > [!NOTE]
 > For the time being, there is no proper documentation being generated for the options.
-> So, to see them all, you need to read the source code for the [NixOS module](./modules/nixos.nix).
+> So, to see them all, you either need to read the source code for the NixOS module [here](./modules/nixos.nix),
+> or, a simpler way is to just reference the Nixpkgs module for [Sway](https://mynixos.com/nixpkgs/options/programs.sway),
+> since they're pretty similar.
 
 ## Package
 
