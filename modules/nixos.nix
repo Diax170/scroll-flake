@@ -30,6 +30,20 @@ in
         description = ''
           The scroll package to use.
         '';
+        
+        apply =
+          p:
+          if p == null then
+            null
+          else
+            wayland-lib.genFinalPackage p {
+              extraSessionCommands = cfg.extraSessionCommands;
+              extraOptions = cfg.extraOptions;
+              withBaseWrapper = cfg.wrapperFeatures.base;
+              withGtkWrapper = cfg.wrapperFeatures.gtk;
+              enableXWayland = cfg.xwayland.enable;
+              isNixOS = true;
+            };
       };
 
     wrapperFeatures = {
