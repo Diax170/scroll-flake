@@ -183,7 +183,7 @@ in
             "scroll/config.d/nixos.conf".source = pkgs.writeText "nixos.conf" ''
               # Import the most important environment variables into the D-Bus and systemd
               # user environments (e.g. required for screen sharing and Pinentry prompts):
-              exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SCROLLSOCK XDG_CURRENT_DESKTOP
+              exec dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SCROLLSOCK XDG_CURRENT_DESKTOP XDG_SESSION_TYPE PATH NIXOS_OZONE_WL XCURSOR_THEME XCURSOR_SIZE
               # enable systemd-integration
               exec "systemctl --user import-environment {,WAYLAND_}DISPLAY SCROLLSOCK; systemctl --user start scroll-session.target"
               exec scrollmsg -t subscribe '["shutdown"]' && systemctl --user stop scroll-session.target
@@ -217,9 +217,6 @@ in
       (import (modulesPath + "/programs/wayland/wayland-session.nix") {
         inherit lib pkgs;
         enableXWayland = cfg.xwayland.enable;
-
-        # enabling this may cause some random issues
-        enableWlrPortal = false;
       })
     ]
   );

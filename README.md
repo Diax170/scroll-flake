@@ -92,6 +92,13 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
 > or, a simpler way is to just reference the Nixpkgs module for [Sway](https://mynixos.com/nixpkgs/options/programs.sway),
 > since they're pretty similar.
 
+> [!WARNING]
+> Upon enabling the scroll module, some applications may take longer to start or fail entirely, most notably Waybar. This is not an issue exclusive to scroll, as it also seems to be happening to other Sway users on NixOS. To address this, you will need to manually add this line to the top of your configuration:
+>
+> `include /etc/scroll/config.d/*`
+>
+> If you wanna read more, refer to [this](https://github.com/Alexays/Waybar/issues/2675#issuecomment-3288118070) comment on a GitHub issue.
+
 ## Package
 
 The input also exposes 3 package names, if you wish to install them manually:
