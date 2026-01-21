@@ -1,5 +1,5 @@
 {
-  description = "Nix flake for the Scroll Window Manager (based on Sway)";
+  description = "NixOS flake for scroll, a fork of Sway with a scrolling tiling layout";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";

@@ -1,7 +1,14 @@
-# scroll-flake
+<p align="center"><img src="logo.png" height=256></p>
+<h1 align="center">scroll-flake</h1>
+
+<p align="center">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/AsahiRocks/scroll-flake?style=flat">
+  <img alt="GitHub last commit (branch)" src="https://img.shields.io/github/last-commit/AsahiRocks/scroll-flake/master?style=flat&label=last%20update">
+</p>
+
 This flake contains NixOS packages & modules for [scroll](https://github.com/dawsers/scroll), which is a fork of Sway (an i3-compatible Wayland compositor) with a scrolling tiling layout.
 
-This concept should already be familliar to users of PaperWM, niri or other projects. If not, however, you can watch this great video by Brodie Robertson explaining the concept [here](https://www.youtube.com/watch?v=r0JUm77inIA).
+This concept should be already familiar to users of PaperWM, Karousel, niri and other projects. If not, however, you can watch this great video by Brodie Robertson explaining it [here](https://www.youtube.com/watch?v=r0JUm77inIA).
 
 ## Installation
 To get started, just simply add the repository to your flake inputs:
@@ -30,7 +37,7 @@ If you wish to use it, you need to first import the scroll-flake module in your 
 {
   # ... rest of your flake
 
-  outputs = inputs@{ self, nixpkgs, ... }: {
+  outputs = inputs @ { self, nixpkgs, ... }: {
     # example host, replace with your own!
     nixosConfigurations.example = nixpkgs.lib.nixosSystem {
       modules = [
@@ -87,10 +94,7 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
 ```
 
 > [!NOTE]
-> For the time being, there is no proper documentation being generated for the options.
-> So, to see them all, you either need to read the source code for the NixOS module [here](./modules/nixos.nix),
-> or, a simpler way is to just reference the Nixpkgs module for [Sway](https://mynixos.com/nixpkgs/options/programs.sway),
-> since they're pretty similar.
+> To see all the available options, you can reference the Sway [NixOS module](https://mynixos.com/nixpkgs/options/programs.sway) from Nixpkgs, as they are both very similar.
 
 > [!WARNING]
 > Upon enabling the scroll module, some applications may take longer to start or fail entirely, most notably Waybar. This is not an issue exclusive to scroll, as it also seems to be happening to other Sway users on NixOS. To address this, you will need to manually add this line to the top of your configuration:
@@ -114,16 +118,19 @@ Using them is as simple as adding a normal package:
   inputs,
   ...
 }:
+let
+  system = pkgs.stdenv.hostPlatform.system;
+in
 {
   environment.systemPackages = [
     # scroll package (replace `default` with whatever package name above)
-    inputs.scroll-flake.packages.${pkgs.stdenv.hostPlatform.system}.default
+    inputs.scroll-flake.packages.${system}.default
   ];
 }
 ```
 
 ## TODO
-- [ ] Generate documentation from NixOS module
+- [ ] Generate documentation from the NixOS module
 - [ ] Create a Home Manager module
 
 ## License
