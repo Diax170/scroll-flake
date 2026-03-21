@@ -6,6 +6,9 @@
   <img alt="GitHub last commit (branch)" src="https://img.shields.io/github/last-commit/AsahiRocks/scroll-flake/master?style=flat&label=last%20update">
 </p>
 
+> [!IMPORTANT]
+> This repository is not maintained anymore. This is because I do not use scroll, _nor_ even NixOS anymore, and combined with my declining mental state I simply do not have the energy to keep this up anymore. I'm really sorry for the inconvenience. If anyone wishes to fork this repo and continue where I left off, you're totally free to do so.
+
 This flake contains NixOS packages & modules for [scroll](https://github.com/dawsers/scroll), which is a fork of Sway (an i3-compatible Wayland compositor) with a scrolling tiling layout.
 
 This concept should be already familiar to users of PaperWM, Karousel, niri and other projects. If not, however, you can watch this great video by Brodie Robertson explaining it [here](https://www.youtube.com/watch?v=r0JUm77inIA).
