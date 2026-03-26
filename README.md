@@ -2,12 +2,12 @@
 <h1 align="center">scroll-flake</h1>
 
 <p align="center">
-  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/AsahiRocks/scroll-flake?style=flat">
-  <img alt="GitHub last commit (branch)" src="https://img.shields.io/github/last-commit/AsahiRocks/scroll-flake/master?style=flat&label=last%20update">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/Diax170/scroll-flake?style=flat">
+  <img alt="GitHub last commit (branch)" src="https://img.shields.io/github/last-commit/Diax170/scroll-flake/master?style=flat&label=last%20update">
 </p>
 
-> [!IMPORTANT]
-> This repository is not maintained anymore. This is because I do not use scroll, _nor_ even NixOS anymore, and combined with my declining mental state I simply do not have the energy to keep this up anymore. I'm really sorry for the inconvenience. If anyone wishes to fork this repo and continue where I left off, you're totally free to do so.
+> [!NOTE]
+> This repository used to be maintained by @AsahiRocks. It's recently been archived, just at the time when I'm switching to NixOS (coincidence?). So I decided to try to fork off and keep this repo up to date by myself. More info [here](https://github.com/dawsers/scroll/discussions/236).
 
 This flake contains NixOS packages & modules for [scroll](https://github.com/dawsers/scroll), which is a fork of Sway (an i3-compatible Wayland compositor) with a scrolling tiling layout.
 
@@ -22,7 +22,7 @@ To get started, just simply add the repository to your flake inputs:
     # ... other inputs
 
     scroll-flake = {
-      url = "github:AsahiRocks/scroll-flake";
+      url = "github:Diax170/scroll-flake";
       inputs.nixpkgs.follows = "nixpkgs"; # this assumes nixos unstable
     };
   };
