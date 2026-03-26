@@ -43,16 +43,16 @@
     "scroll-stable": {
       "flake": false,
       "locked": {
-        "lastModified": 1771347627,
-        "narHash": "sha256-fhNC5i9ZHvXWKQY+zDRHr7QovmquU0eLI8/QY3euBnc=",
-        "ref": "refs/tags/1.12.5",
-        "rev": "f265ef29ef3752299f2ef19c154ef1b908515914",
-        "revCount": 8164,
+        "lastModified": 1774099486,
+        "narHash": "sha256-XcHE8QKmpHLYBOY+Jlz9zNeLYnMIJ5Aw/dCGVRUAzWE=",
+        "ref": "refs/tags/1.12.8",
+        "rev": "c18bc40bf4475b9c78b2cedd2ab3a7ab9d89413c",
+        "revCount": 8253,
         "type": "git",
         "url": "https://github.com/dawsers/scroll"
       },
       "original": {
-        "ref": "refs/tags/1.12.5",
+        "ref": "refs/tags/1.12.8",
         "type": "git",
         "url": "https://github.com/dawsers/scroll"
       }
