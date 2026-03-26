@@ -4,6 +4,11 @@ final: prev: {
     src = inputs.scroll-stable;
     meta.mainProgram = "scroll";
 
+    # Prevent erroring on "may be uninitialized" warnings
+    mesonFlags = old.mesonFlags ++ [
+      "-Dc_args=-Wno-error=maybe-uninitialized"
+    ];
+
     patches = [];
 
     nativeBuildInputs = old.nativeBuildInputs ++ (with prev; [
