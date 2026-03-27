@@ -133,6 +133,7 @@ in
 ```
 
 ## TODO
+- [ ] Add documentation on how to run with uwsm
 - [ ] Generate documentation from the NixOS module
 - [ ] Create a Home Manager module
 
