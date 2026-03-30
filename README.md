@@ -150,15 +150,6 @@ Don't run the desktop entry because it doesn't contain an absolute path (`Exec=s
 ## Customization
 > [!NOTE]
 > This flake automatically installs [some packages](modules/nixos.nix#L127), such as portals, but also programs like kitty or pulseaudio. If you don't want to use them, override the `programs.scroll.extraPackages` option with whatever packages you'd like to be installed instead.
-> ```nix
-> programs.scroll.extraPackages = with pkgs; [
->   xdg-desktop-portal
->   xdg-desktop-portal-gtk
->   xdg-desktop-portal-wlr
->   rofi
->   bemenu
-> ];
-> ```
 
 To see all available options, you can reference the [module source](modules/nixos.nix) or Sway [NixOS module](https://mynixos.com/nixpkgs/options/programs.sway) from Nixpkgs, as they are both very similar.
 
