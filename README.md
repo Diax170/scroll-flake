@@ -147,8 +147,18 @@ Incorrect:
 Don't run the desktop entry because it doesn't contain an absolute path (`Exec=scroll`), causing UWSM to fail.
 
 
+## Customization
 > [!NOTE]
-> To see all the available options, you can reference the Sway [NixOS module](https://mynixos.com/nixpkgs/options/programs.sway) from Nixpkgs, as they are both very similar.
+> This flake automatically installs [some packages](modules/nixos.nix#L127), such as portals, but also programs like kitty or wmenu. If you don't want to use them, override the `programs.scroll.extraPackages` option with whatever packages you'd like to be installed instead. However, it's recommended to use the following de-bloating override which only installs portals:
+> ```nix
+> programs.scroll.extraPackages = [
+>   xdg-desktop-portal
+>   xdg-desktop-portal-gtk
+>   xdg-desktop-portal-wlr
+> ];
+> ```
+
+To see all available options, you can reference the [module source](modules/nixos.nix) or Sway [NixOS module](https://mynixos.com/nixpkgs/options/programs.sway) from Nixpkgs, as they are both very similar.
 
 > [!WARNING]
 > Upon enabling the scroll module, some applications may take longer to start or fail entirely, most notably Waybar. This is not an issue exclusive to scroll, as it also seems to be happening to other Sway users on NixOS. To address this, you will need to manually add this line to the top of your configuration:
