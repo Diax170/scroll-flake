@@ -30,7 +30,7 @@ in
         description = ''
           The scroll package to use.
         '';
-        
+
         apply =
           p:
           if p == null then
@@ -132,12 +132,14 @@ in
         swayidle
         swaylock
         wmenu
+
         xdg-desktop-portal
         xdg-desktop-portal-gtk
         xdg-desktop-portal-wlr
+        rofi
       ];
       defaultText = lib.literalExpression ''
-        with pkgs; [ brightnessctl kitty grim pulseaudio swayidle swaylock wmenu xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr ];
+        with pkgs; [ brightnessctl kitty grim pulseaudio swayidle swaylock xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr rofi ];
       '';
       example = lib.literalExpression ''
         with pkgs; [ i3status i3status-rust termite rofi light ]

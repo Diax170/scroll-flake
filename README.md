@@ -149,12 +149,13 @@ Don't run the desktop entry because it doesn't contain an absolute path (`Exec=s
 
 ## Customization
 > [!NOTE]
-> This flake automatically installs [some packages](modules/nixos.nix#L127), such as portals, but also programs like kitty or wmenu. If you don't want to use them, override the `programs.scroll.extraPackages` option with whatever packages you'd like to be installed instead. However, it's recommended to use the following de-bloating override which only installs portals:
+> This flake automatically installs [some packages](modules/nixos.nix#L127), such as portals, but also programs like kitty or pulseaudio. If you don't want to use them, override the `programs.scroll.extraPackages` option with whatever packages you'd like to be installed instead. However, it's recommended to use the following de-bloating override which only installs portals:
 > ```nix
 > programs.scroll.extraPackages = with pkgs; [
 >   xdg-desktop-portal
 >   xdg-desktop-portal-gtk
 >   xdg-desktop-portal-wlr
+>   rofi # needed for the screen cast selector to work. Can be replaced with bemenu
 > ];
 > ```
 
