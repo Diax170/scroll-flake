@@ -104,7 +104,7 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
 ## UWSM
 Add the following snippet to your configuration to integrate scroll with the Universal Wayland Session Manager:
 
-```
+```nix
 {
   # ...
 
