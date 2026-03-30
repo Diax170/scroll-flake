@@ -137,6 +137,7 @@ in
         xdg-desktop-portal-gtk
         xdg-desktop-portal-wlr
         rofi
+        bemenu
       ];
       defaultText = lib.literalExpression ''
         with pkgs; [ brightnessctl kitty grim pulseaudio swayidle swaylock xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr rofi ];

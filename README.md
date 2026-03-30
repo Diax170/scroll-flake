@@ -69,7 +69,7 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
 {
   programs.scroll = {
     enable = true;
-    package = inputs.scroll-flake.packages.${pkgs.stdenv.hostPlatform.system}.scroll-git;
+    package = inputs.scroll-flake.packages.${pkgs.stdenv.hostPlatform.system}.scroll-git; # read more below
 
     # Commands executed before scroll gets launched, see more examples here:
     # https://github.com/dawsers/scroll#environment-variables
@@ -144,29 +144,23 @@ Incorrect:
 - `uwsm start scroll`
 - `uwsm start scroll.desktop`
 
-Don't run the desktop entry because it doesn't contain an absolute path (`Exec=scroll`), causing UWSM to fail.
+Don't run the desktop entry because it doesn't contain an absolute path (`Exec=scroll`), causing UWSM to fail. Typing `scroll` alone into UWSM automatically expands it to `scroll.desktop`.
 
 
 ## Customization
 > [!NOTE]
-> This flake automatically installs [some packages](modules/nixos.nix#L127), such as portals, but also programs like kitty or pulseaudio. If you don't want to use them, override the `programs.scroll.extraPackages` option with whatever packages you'd like to be installed instead. However, it's recommended to use the following de-bloating override which only installs portals:
+> This flake automatically installs [some packages](modules/nixos.nix#L127), such as portals, but also programs like kitty or pulseaudio. If you don't want to use them, override the `programs.scroll.extraPackages` option with whatever packages you'd like to be installed instead.
 > ```nix
 > programs.scroll.extraPackages = with pkgs; [
 >   xdg-desktop-portal
 >   xdg-desktop-portal-gtk
 >   xdg-desktop-portal-wlr
->   rofi # needed for the screen cast selector to work. Can be replaced with bemenu
+>   rofi
+>   bemenu
 > ];
 > ```
 
 To see all available options, you can reference the [module source](modules/nixos.nix) or Sway [NixOS module](https://mynixos.com/nixpkgs/options/programs.sway) from Nixpkgs, as they are both very similar.
-
-> [!WARNING]
-> Upon enabling the scroll module, some applications may take longer to start or fail entirely, most notably Waybar. This is not an issue exclusive to scroll, as it also seems to be happening to other Sway users on NixOS. To address this, you will need to manually add this line to the top of your configuration:
->
-> `include /etc/scroll/config.d/*`
->
-> If you wanna read more, refer to [this](https://github.com/Alexays/Waybar/issues/2675#issuecomment-3288118070) comment on a GitHub issue.
 
 ## Package
 
@@ -193,6 +187,26 @@ in
   ];
 }
 ```
+
+## Troubleshooting
+
+### Screen cast not working
+Ensure `xdg-desktop-portal`, `xdg-desktop-portal-wlr`, `rofi` and `bemenu` are installed in **the same profile** (preferably system profile) as Scroll.
+You should also probably enable envfs:
+```nix
+services.envfs.enable = true;
+```
+Also, see the issue below.
+
+### Apps (especially Waybar) launching slowly or failing entirely
+Add the following line to your config:
+```
+include /etc/scroll/config.d/*
+```
+This configures your environment properly. Read more [here](https://github.com/Alexays/Waybar/issues/2675#issuecomment-3288118070).
+
+### Other
+If you encounter any other problems, even when you already resolved them, let me know by opening a discussion.
 
 ## TODO
 - [x] Add documentation on how to run with UWSM
