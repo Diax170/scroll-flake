@@ -172,7 +172,7 @@ let
   system = pkgs.stdenv.hostPlatform.system;
 in
 {
-  environment.systemPackages = [
+  environment.systemPackages = with pkgs; [
     # scroll package (replace `default` with whatever package name above)
     inputs.scroll-flake.packages.${system}.default
   ];
@@ -182,10 +182,30 @@ in
 ## Troubleshooting
 
 ### Screen cast not working
-Ensure `xdg-desktop-portal`, `xdg-desktop-portal-wlr`, `rofi` and `bemenu` are installed in **the same profile** (preferably system profile) as Scroll.
-You should also probably enable envfs:
+Add the following lines to your configuration:
 ```nix
-services.envfs.enable = true;
+{
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [
+      xdg-desktop-portal-wlr
+      xdg-desktop-portal-gtk
+    ];
+    wlr = {
+      enable = true;
+      settings.screencast = {
+        chooser_type = "simple";
+        chooser_cmd = "${pkgs.slurp}/bin/slurp -f 'Monitor: %o' -or";
+      };
+    };
+  };
+}
+```
+Ensure [slurp](https://github.com/emersion/slurp) is installed on your system.
+
+You might also need to enable envfs:
+```nix
+  services.envfs.enable = true;
 ```
 Also, see the issue below.
 
@@ -201,6 +221,7 @@ If you encounter any other problems, even when you already resolved them, let me
 
 ## TODO
 - [x] Add documentation on how to run with UWSM
+- [ ] Figure out how to set up per-window screen casting
 - [ ] Generate documentation from the NixOS module
 - [ ] Create a Home Manager module
 
