@@ -48,6 +48,11 @@ If you wish to use it, you need to first import the scroll-flake module in your 
 
         # ... other modules
       ];
+
+      specialArgs = {
+        # Allows the configuration to import inputs
+        inherit inputs;
+      }
     };
   };
 }
@@ -96,6 +101,52 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
 }
 ```
 
+## UWSM
+Add the following snippet to your configuration to integrate scroll with the Universal Wayland Session Manager:
+
+```
+{
+  # ...
+
+  programs.uwsm = {
+    enable = true;
+    waylandCompositors = {
+      scroll = {
+        prettyName = "Scroll";
+        comment = "Scroll compositor managed by UWSM";
+        binPath = "/run/current-system/sw/bin/scroll";
+      };
+    };
+  };
+
+  # ...
+}
+```
+
+This will install UWSM and create a desktop entry accessible by your display manager.
+
+## Starting from command line
+
+### Normally
+```
+$ scroll
+```
+
+### With UWSM
+If you want to start Scroll with UWSM manually, use the `-F` flag or provide a full path to the `scroll` executable.
+
+Correct:
+- `uwsm start -F scroll` (recommended, enforces full path)
+- `uwsm start /run/current-system/sw/bin/scroll`
+- `uwsm start "$(which scroll)"`
+
+Incorrect:
+- `uwsm start scroll`
+- `uwsm start scroll.desktop`
+
+Don't run the desktop entry because it doesn't contain an absolute path (`Exec=scroll`), causing UWSM to fail.
+
+
 > [!NOTE]
 > To see all the available options, you can reference the Sway [NixOS module](https://mynixos.com/nixpkgs/options/programs.sway) from Nixpkgs, as they are both very similar.
 
@@ -111,7 +162,7 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
 The input also exposes 3 package names, if you wish to install them manually:
 - 📦 `default` — same as using "scroll-stable"
 - 📦 `scroll-stable` — the latest tagged release of scroll (currently "1.12.8")
-- 📦 `scroll-git` — the git (master branch) version of scroll, which gets automatically rebased daily
+- 📦 `scroll-git` — the git (master branch) version of scroll, which gets automatically rebased daily (on UTC 0:00)
 
 Using them is as simple as adding a normal package:
 
@@ -133,7 +184,7 @@ in
 ```
 
 ## TODO
-- [ ] Add documentation on how to run with uwsm
+- [x] Add documentation on how to run with UWSM
 - [ ] Generate documentation from the NixOS module
 - [ ] Create a Home Manager module
 
