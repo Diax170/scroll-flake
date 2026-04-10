@@ -9,6 +9,7 @@ final: prev: {
       "-Dc_args=-Wno-error=maybe-uninitialized"
     ];
 
+    passthru.providedSessions = [ "scroll" ];
     patches = [];
 
     nativeBuildInputs = old.nativeBuildInputs ++ (with prev; [
