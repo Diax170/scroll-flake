@@ -157,7 +157,7 @@ To see all available options, you can reference the [module source](modules/nixo
 
 The input also exposes 3 package names, if you wish to install them manually:
 - 📦 `default` — same as using "scroll-stable"
-- 📦 `scroll-stable` — the latest tagged release of scroll (currently "1.12.8")
+- 📦 `scroll-stable` — the latest tagged release of scroll (currently "1.12.9")
 - 📦 `scroll-git` — the git (master branch) version of scroll, which gets automatically rebased daily (on UTC 0:00)
 
 Using them is as simple as adding a normal package:
