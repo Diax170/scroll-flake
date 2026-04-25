@@ -3,7 +3,7 @@ name: "fetch_upstream"
 on:
   schedule:
     - cron: "0 0 * * *"
-  
+
   workflow_dispatch:
 
 jobs:
@@ -13,6 +13,6 @@ jobs:
       # https://stackoverflow.com/questions/65499626/trigger-github-actions-if-push-in-another-repo
       - name: fetch
         run: |
-          #!/usr/bin/env bash
+          #!/usr/bin/env sh
           url="https://api.github.com/repos/dawsers/scroll/commits/master"
           exit $(curl -s $url | jq -r "((now - (.commit.author.date | fromdateiso8601) )  / (60*60*24)  | trunc)")

@@ -220,7 +220,7 @@ This configures your environment properly. Read more [here](https://github.com/A
 If you encounter any other problems, even when you already resolved them, let me know by opening a discussion.
 
 ## TODO
-- [ ] Create a workflow (action) to automatically fetch and update version of stable
+- [x] Create a workflow (action) to automatically fetch and update version of stable
 - [ ] Figure out how to set up per-window screen casting
 - [ ] Generate documentation from the NixOS module
 - [ ] Create a Home Manager module

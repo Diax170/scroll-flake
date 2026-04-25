@@ -2,7 +2,7 @@ name: "flake_update"
 
 on:
   workflow_run:
-    workflows: ["fetch_upstream"]
+    workflows: ["update_stable"]
     types: [completed]
 
   workflow_dispatch:
@@ -17,7 +17,7 @@ jobs:
   update: # update flake.lock
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion != 'failure' }}
-    
+
     outputs:
       pr-number: ${{ steps.update.outputs.pull-request-number }}
 
@@ -26,7 +26,7 @@ jobs:
       - uses: DeterminateSystems/determinate-nix-action@v3
       - uses: DeterminateSystems/update-flake-lock@main
         id: update
-  
+
   test: # test building with updated source
     runs-on: ubuntu-latest
     needs: update
@@ -37,7 +37,7 @@ jobs:
           ref: "update_flake_lock_action"
       - uses: cachix/install-nix-action@v31
       - run: nix build .#scroll-git
-  
+
   merge: # merge the pull request
     runs-on: ubuntu-latest
     needs: [update,test]

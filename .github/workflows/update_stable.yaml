@@ -1,0 +1,39 @@
+name: "update_stable"
+
+on:
+  workflow_run:
+    workflows: ["fetch_upstream"]
+    types: [completed]
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Update release tag
+        run: |
+          #!/usr/bin/env sh
+          # Fetch latest release tag
+          url="https://api.github.com/repos/dawsers/scroll/releases/latest"
+          tag_name="$(curl -s "$url" | jq -r ".tag_name")" || return
+          test -z "$tag_name" && return
+
+          # Update flake.nix
+          sed -Ei 's|^      url = "git\+https://github.com/dawsers/scroll\?ref=refs/tags/.*";$|      url = "git\+https://github.com/dawsers/scroll\?ref=refs/tags/'"$tag_name"'";|' flake.nix
+
+          # Update README.md
+          sed -Ei 's|(- 📦 `scroll-stable` — the latest tagged release of scroll \(currently ")[^"]+(")|\1'"$tag_name"'\2|' README.md
+
+      - name: Commit and push changes
+        uses: devops-infra/action-commit-push@v1.1.0
+        with:
+          github_token: ${{ github.token }}
+          commit_message: "Update stable"
