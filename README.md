@@ -210,14 +210,14 @@ You might also need to enable envfs:
 Also, see the issue below.
 
 ### Apps (especially Waybar) launching slowly or failing entirely
-Add the following line to your config:
+Add the following line to your Scroll configuration:
 ```
 include /etc/scroll/config.d/*
 ```
 This configures your environment properly. Read more [here](https://github.com/Alexays/Waybar/issues/2675#issuecomment-3288118070).
 
 ### Other
-If you encounter any other problems, even when you already resolved them, let me know by opening a discussion.
+If you encounter any other problems, let me know by opening a discussion.
 
 ## TODO
 - [x] Create a workflow (action) to automatically fetch and update version of stable
