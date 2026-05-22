@@ -16,35 +16,33 @@ let
 in
 {
   options.programs.scroll = {
-    enable =
-      lib.mkEnableOption ''
-        scroll, a fork of Sway (an i3-compatible Wayland compositor) with a scrolling
-        tiling layout.
+    enable = lib.mkEnableOption ''
+      scroll, a fork of Sway (an i3-compatible Wayland compositor) with a scrolling
+      tiling layout.
+    '';
+
+    package = lib.mkOption {
+      type = lib.types.package;
+      default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
+      example = self.packages.${pkgs.stdenv.hostPlatform.system}.scroll-git;
+      description = ''
+        The scroll package to use.
       '';
 
-    package =
-      lib.mkOption {
-        type = lib.types.package;
-        default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
-        example = self.packages.${pkgs.stdenv.hostPlatform.system}.scroll-git;
-        description = ''
-          The scroll package to use.
-        '';
-
-        apply =
-          p:
-          if p == null then
-            null
-          else
-            wayland-lib.genFinalPackage p {
-              extraSessionCommands = cfg.extraSessionCommands;
-              extraOptions = cfg.extraOptions;
-              withBaseWrapper = cfg.wrapperFeatures.base;
-              withGtkWrapper = cfg.wrapperFeatures.gtk;
-              enableXWayland = cfg.xwayland.enable;
-              isNixOS = true;
-            };
-      };
+      apply =
+        p:
+        if p == null then
+          null
+        else
+          wayland-lib.genFinalPackage p {
+            extraSessionCommands = cfg.extraSessionCommands;
+            extraOptions = cfg.extraOptions;
+            withBaseWrapper = cfg.wrapperFeatures.base;
+            withGtkWrapper = cfg.wrapperFeatures.gtk;
+            enableXWayland = cfg.xwayland.enable;
+            isNixOS = true;
+          };
+    };
 
     wrapperFeatures = {
       base =
@@ -139,7 +137,7 @@ in
         slurp # recommended screen cast output selector
       ];
       defaultText = lib.literalExpression ''
-        with pkgs; [ brightnessctl kitty grim pulseaudio swayidle swaylock xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr rofi ];
+        with pkgs; [ brightnessctl kitty grim pulseaudio swayidle swaylock wmenu xdg-desktop-portal xdg-desktop-portal-gtk xdg-desktop-portal-wlr slurp ];
       '';
       example = lib.literalExpression ''
         with pkgs; [ i3status i3status-rust termite rofi light ]
