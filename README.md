@@ -7,7 +7,7 @@
 </p>
 
 > [!NOTE]
-> This repository used to be maintained by @AsahiRocks. It's recently been archived, just at the time when I'm switching to NixOS (coincidence?). So I decided to try to fork off and keep this repo up to date by myself. More info [here](https://github.com/dawsers/scroll/discussions/236).
+> Shoutout to [@AsahiRocks](https://github.com/AsahiRocks) for maintaining [the original repo](https://github.com/AsahiRocks/scroll-flake). More info [here](https://github.com/dawsers/scroll/discussions/236).
 
 This flake contains NixOS packages & modules for [scroll](https://github.com/dawsers/scroll), which is a fork of Sway (an i3-compatible Wayland compositor) with a scrolling tiling layout.
 
