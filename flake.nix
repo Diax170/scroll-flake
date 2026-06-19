@@ -17,24 +17,44 @@
 
   outputs = inputs@{ self, nixpkgs, ... }:
   let
-    eachSystem = nixpkgs.lib.genAttrs [
-      "x86_64-linux"
-      "aarch64-linux"
-    ];
+    supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
+    forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+    nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
+
+    # Need to retrieve both sway and sway-unwrapped
+    # Using functions because of forAllSystems
+    mkScrollStable = system: (import nixpkgs {
+      inherit system;
+      overlays = [(import ./overlays/scroll-stable.nix { inherit inputs; })];
+    });
+    mkScrollGit = system: (import nixpkgs {
+      inherit system;
+      overlays = [(import ./overlays/scroll-git.nix { inherit inputs; })];
+    });
   in
   {
-    packages = eachSystem (system: {
-      "scroll-stable" = (import nixpkgs {
-        inherit system;
-        overlays = [(import ./overlays/scroll-stable.nix { inherit inputs; })];
-      }).sway;
-
-      "scroll-git" = (import nixpkgs {
-        inherit system;
-        overlays = [(import ./overlays/scroll-git.nix { inherit inputs; })];
-      }).sway;
-
+    packages = forAllSystems (system: {
+      "scroll-stable" = (mkScrollStable system).sway;
+      "scroll-git" = (mkScrollGit system).sway;
       default = self.packages.${system}."scroll-stable";
+    });
+
+    devShells = forAllSystems (system:
+    let
+      pkgs = nixpkgsFor.${system};
+    in
+    {
+      default = pkgs.mkShell {
+        # Need to select sway-unwrapped here because the wrapped sway package uses upstream build inputs
+        inputsFrom = [ (mkScrollStable system).sway-unwrapped ];
+        # Add some tools and libs to let Scroll compile
+        packages = with pkgs; [
+          meson
+          cmake
+          ninja
+          pkg-config
+        ];
+      };
     });
 
     nixosModules.default = import ./modules/nixos.nix { inherit self; };
