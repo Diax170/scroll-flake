@@ -26,11 +26,11 @@
     "scroll-git": {
       "flake": false,
       "locked": {
-        "lastModified": 1781644032,
-        "narHash": "sha256-1Iwb8r4Kba7gLA4Sv+E18fvlC/qmAlhw1XaXqsFPwWk=",
+        "lastModified": 1781889046,
+        "narHash": "sha256-ik6WLi3QiQZLD1OOr3KYD3T4RJj8xxeKpk+d4Z+83TQ=",
         "ref": "master",
-        "rev": "0805959001be202ed8b0bf2eb3aba64d22c4427b",
-        "revCount": 8446,
+        "rev": "3cd1319a56deb0b5ef2534d04ff266e71e96d7ac",
+        "revCount": 8456,
         "type": "git",
         "url": "https://github.com/dawsers/scroll"
       },
