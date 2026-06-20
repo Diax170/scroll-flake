@@ -5,12 +5,12 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     scroll-stable = {
-      url = "git+https://github.com/dawsers/scroll?ref=refs/tags/1.12.15";
+      url = "github:dawsers/scroll?ref=refs/tags/1.12.15";
       flake = false;
     };
 
     scroll-git = {
-      url = "git+https://github.com/dawsers/scroll?ref=master";
+      url = "github:dawsers/scroll?ref=master";
       flake = false;
     };
   };
