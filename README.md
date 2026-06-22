@@ -155,10 +155,10 @@ To see all available options, you can reference the [module source](modules/nixo
 
 ## Package
 
-The input also exposes 3 package names, if you wish to install them manually:
-- 📦 `default` — same as using "scroll-stable"
+The input also exposes 5 package names, if you wish to install them manually:
+- 📦 `default` — same as "scroll-stable"
 - 📦 `scroll-stable` — the latest tagged release of scroll (currently "1.12.15")
-- 📦 `scroll-git` — the git (master branch) version of scroll, which gets automatically rebased daily (on UTC 0:00)
+- 📦 `scroll-git` — the git (master branch) version of scroll
 - 📦 `scroll-stable-unwrapped` — same as `scroll-stable` but [unwrapped](https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/programs/wayland/sway.nix#L51)
 - 📦 `scroll-git-unwrapped` — same as `scroll-git` but [unwrapped](https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/programs/wayland/sway.nix#L51)
 
@@ -180,6 +180,8 @@ in
   ];
 }
 ```
+
+All of the packages get automatically rebased daily at 0:00 UTC.
 
 ## Troubleshooting
 
