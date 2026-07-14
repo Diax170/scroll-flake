@@ -26,11 +26,11 @@
     "scroll-git": {
       "flake": false,
       "locked": {
-        "lastModified": 1783898094,
-        "narHash": "sha256-K6lShXIWThlzR5DSgNyJQze8mFsXQ4Kk7bR6PN9DZ5I=",
+        "lastModified": 1783959550,
+        "narHash": "sha256-ueX0Zl/SGd0mnuLr6e0TdqlUcpDjj66evfM9PZQKDQk=",
         "owner": "dawsers",
         "repo": "scroll",
-        "rev": "b4ecbef94b82f83c25de7ac4ebf710b639b637de",
+        "rev": "deec2a21375dc10add8dbb9b162539795bc870b4",
         "type": "github"
       },
       "original": {
