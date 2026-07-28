@@ -15,51 +15,64 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, ... }:
-  let
-    supportedSystems = [ "x86_64-linux" "aarch64-linux" ];
-    forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-    nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
-  in
-  {
-    packages = forAllSystems (system:
+  outputs =
+    inputs@{ self, nixpkgs, ... }:
     let
-      scrollStablePkgs = (import nixpkgs {
-        inherit system;
-        overlays = [(import ./overlays/scroll-stable.nix { inherit inputs; })];
-      });
-      scrollGitPkgs = (import nixpkgs {
-        inherit system;
-        overlays = [(import ./overlays/scroll-git.nix { inherit inputs; })];
-      });
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+      ];
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
     in
     {
-      "scroll-stable" = scrollStablePkgs.sway;
-      "scroll-stable-unwrapped" = scrollStablePkgs.sway-unwrapped;
+      packages = forAllSystems (
+        system:
+        let
+          scrollStablePkgs = (
+            import nixpkgs {
+              inherit system;
+              overlays = [ (import ./overlays/scroll-stable.nix { inherit inputs; }) ];
+            }
+          );
+          scrollGitPkgs = (
+            import nixpkgs {
+              inherit system;
+              overlays = [ (import ./overlays/scroll-git.nix { inherit inputs; }) ];
+            }
+          );
+        in
+        {
+          "scroll-stable" = scrollStablePkgs.sway;
+          "scroll-stable-unwrapped" = scrollStablePkgs.sway-unwrapped;
 
-      "scroll-git" = scrollGitPkgs.sway;
-      "scroll-git-unwrapped" = scrollGitPkgs.sway-unwrapped;
+          "scroll-git" = scrollGitPkgs.sway;
+          "scroll-git-unwrapped" = scrollGitPkgs.sway-unwrapped;
 
-      default = self.packages.${system}."scroll-stable";
-    });
+          default = self.packages.${system}."scroll-stable";
+        }
+      );
 
-    devShells = forAllSystems (system:
-    let
-      pkgs = nixpkgsFor.${system};
-      scroll-unwrapped = self.packages.${pkgs.system}.scroll-git-unwrapped;
-    in
-    {
-      default = pkgs.mkShell {
-        inputsFrom = [ scroll-unwrapped ];
-        packages = with pkgs; [
-          meson
-          cmake
-          ninja
-          pkg-config
-        ];
-      };
-    });
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgsFor.${system};
+          scroll-unwrapped = self.packages.${pkgs.system}.scroll-git-unwrapped;
+        in
+        {
+          default = pkgs.mkShell {
+            inputsFrom = [ scroll-unwrapped ];
+            packages = with pkgs; [
+              meson
+              cmake
+              ninja
+              pkg-config
+            ];
+          };
+        }
+      );
 
-    nixosModules.default = import ./modules/nixos.nix { inherit self; };
-  };
+      nixosModules.default = import ./modules/nixos.nix { inherit self; };
+      homeModules.default = import ./modules/home/home.nix { inherit self; };
+    };
 }

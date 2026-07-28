@@ -100,6 +100,55 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
   };
 }
 ```
+> [!NOTE]
+> The NixOS module automatically installs [some packages](modules/nixos.nix#L127), such as portals, but also programs like kitty or pulseaudio. If you don't want to use them, override the `programs.scroll.extraPackages` option with whatever packages you'd like to be installed instead.
+
+To see all available options, you can reference the [module source](modules/nixos.nix) or Sway [NixOS module](https://mynixos.com/nixpkgs/options/programs.sway) from Nixpkgs, as they are both very similar.
+
+## Home Manager module
+> [!NOTE]
+> The Home Manager is a work in progress.
+> Please report any bugs or feature requests on the Issues page.
+
+A Home Manager module is available. Enable it by adding it to your flake:
+```nix
+{
+  # ... rest of your flake
+
+  outputs = inputs @ { self, nixpkgs, ... }: {
+    # example host, replace with your own!
+    nixosConfigurations.example = nixpkgs.lib.nixosSystem {
+      modules = [
+        home-manager.nixosModules.default
+
+        {
+          home-manager = {
+            extraSpecialArgs = { inherit inputs; };
+
+            # Replace with your own user!
+            users.alice = {
+              imports = [
+                inputs.scroll-flake.homeModules.default
+              ];
+
+              # ... your HM config
+            };
+          };
+        }
+
+        # ... other modules
+      ];
+
+      specialArgs = {
+        # Allows the configuration to import inputs
+        inherit inputs;
+      }
+    };
+  };
+}
+```
+
+Most options are the same as in the [Sway module](https://home-manager.dev/manual/26.05/options.xhtml#opt-wayland.windowManager.sway.enable). You can see the new options in [module source](modules/home/lib/options.nix) (search for `scroll` and `isScroll`)
 
 ## UWSM
 Add the following snippet to your configuration to integrate scroll with the Universal Wayland Session Manager:
@@ -148,10 +197,6 @@ Don't run the desktop entry because it doesn't contain an absolute path (`Exec=s
 
 
 ## Customization
-> [!NOTE]
-> This flake automatically installs [some packages](modules/nixos.nix#L127), such as portals, but also programs like kitty or pulseaudio. If you don't want to use them, override the `programs.scroll.extraPackages` option with whatever packages you'd like to be installed instead.
-
-To see all available options, you can reference the [module source](modules/nixos.nix) or Sway [NixOS module](https://mynixos.com/nixpkgs/options/programs.sway) from Nixpkgs, as they are both very similar.
 
 ## Package
 
@@ -227,7 +272,8 @@ If you encounter any other problems, let me know by opening a discussion.
 - [x] Create a workflow (action) to automatically fetch and update version of stable
 - [ ] Figure out how to set up per-window screen casting
 - [ ] Generate documentation from the NixOS module
-- [ ] Create a Home Manager module
+- [x] Create a Home Manager module
+- [ ] Add formatter script
 
 ## License
 This project is licensed under the [MIT License](./LICENSE)
