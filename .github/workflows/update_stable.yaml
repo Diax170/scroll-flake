@@ -28,7 +28,7 @@ jobs:
           test -z "$tag_name" && return
 
           # Update flake.nix
-          sed -Ei 's|^      url = "git\+https://github.com/dawsers/scroll\?ref=refs/tags/.*";$|      url = "git\+https://github.com/dawsers/scroll\?ref=refs/tags/'"$tag_name"'";|' flake.nix
+          sed -Ei 's|^      url = "github:dawsers/scroll\?ref=refs/tags/.*";$|      url = "github:dawsers/scroll\?ref=refs/tags/'"$tag_name"'";|' flake.nix
 
           # Update README.md
           sed -Ei 's|(- 📦 `scroll-stable` — the latest tagged release of scroll \(currently ")[^"]+(")|\1'"$tag_name"'\2|' README.md
