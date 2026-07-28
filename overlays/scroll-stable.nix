@@ -30,6 +30,7 @@ final: prev: {
       libxcb-errors
       libliftoff
       libgbm
+      readline
     ]);
   });
 }
