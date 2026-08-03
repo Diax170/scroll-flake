@@ -422,7 +422,14 @@ let
     ${moduleType} "${name}" {
     ${concatStringsSep "\n" (
       lib.mapAttrsToList (
-        name: value: "  ${name} ${if (builtins.isList value) then (listToStr value) else if (builtins.isBool) then (lib.hm.booleans.yesNo value) else (toString value)}"
+        name: value: "  ${name} ${
+          if builtins.isList value then
+            listToStr value
+          else if builtins.isBool value then
+            lib.hm.booleans.yesNo value
+          else 
+            toString value
+        }"
       ) attrs
     )}
     }
