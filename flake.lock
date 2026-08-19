@@ -2,11 +2,11 @@
   "nodes": {
     "nixpkgs": {
       "locked": {
-        "lastModified": 1786862985,
-        "narHash": "sha256-FBJRXmbGXiSUDvYEbfLYRkckayyZ6SK1UEqhCrIZ2Cs=",
+        "lastModified": 1787001381,
+        "narHash": "sha256-Ue1Yo8gfHdD4TMtNewhA4tkSYeFqXThju0nCyJc3ALo=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "e5bdc4a41d4c072fe1e3787eaa0320a384741d44",
+        "rev": "ec2d622de0773551768cf98f3fc50cbcc003b9c5",
         "type": "github"
       },
       "original": {
@@ -26,11 +26,11 @@
     "scroll-git": {
       "flake": false,
       "locked": {
-        "lastModified": 1787005654,
-        "narHash": "sha256-R7Ua7GU3udMooJDxoX7kUSPB43DVPh+68sA1YBcGF7g=",
+        "lastModified": 1787044151,
+        "narHash": "sha256-F8FDe4FSL99YxXlkNYpSvHNoU1kXBKamTqSpZ9qg0og=",
         "owner": "dawsers",
         "repo": "scroll",
-        "rev": "7794d5dcb8951d78be4bb38cfe7826fec3960d2f",
+        "rev": "5bc509cfd23ef50484355590857ab8554aed7255",
         "type": "github"
       },
       "original": {
@@ -43,16 +43,16 @@
     "scroll-stable": {
       "flake": false,
       "locked": {
-        "lastModified": 1786555587,
-        "narHash": "sha256-SIGDld/pnVULiEH1iOZKz9o1FuqsvF7kEdvSxFxrCAM=",
+        "lastModified": 1787044151,
+        "narHash": "sha256-F8FDe4FSL99YxXlkNYpSvHNoU1kXBKamTqSpZ9qg0og=",
         "owner": "dawsers",
         "repo": "scroll",
-        "rev": "61805d5c58e980f94a51ae67d357227e2809ded4",
+        "rev": "5bc509cfd23ef50484355590857ab8554aed7255",
         "type": "github"
       },
       "original": {
         "owner": "dawsers",
-        "ref": "refs/tags/1.12.19",
+        "ref": "refs/tags/1.12.20",
         "repo": "scroll",
         "type": "github"
       }
