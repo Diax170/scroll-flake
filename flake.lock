@@ -26,11 +26,11 @@
     "scroll-git": {
       "flake": false,
       "locked": {
-        "lastModified": 1787223703,
-        "narHash": "sha256-0RGSH39gnPa6oc/oDbqjBbCWeA0mAHsF71nM3jBQjzo=",
+        "lastModified": 1787305355,
+        "narHash": "sha256-WlCM+g2fY3Kr5B5zf+TVpPHCJpflO/fmAKz9yuoCAsI=",
         "owner": "dawsers",
         "repo": "scroll",
-        "rev": "2cf7806a5d4c1b1db794f2bfee24894fe0bb40c9",
+        "rev": "f80c5820c0eebaad586f0008faecfe3ae62c307a",
         "type": "github"
       },
       "original": {
@@ -43,16 +43,16 @@
     "scroll-stable": {
       "flake": false,
       "locked": {
-        "lastModified": 1787044151,
-        "narHash": "sha256-F8FDe4FSL99YxXlkNYpSvHNoU1kXBKamTqSpZ9qg0og=",
+        "lastModified": 1787305355,
+        "narHash": "sha256-WlCM+g2fY3Kr5B5zf+TVpPHCJpflO/fmAKz9yuoCAsI=",
         "owner": "dawsers",
         "repo": "scroll",
-        "rev": "5bc509cfd23ef50484355590857ab8554aed7255",
+        "rev": "f80c5820c0eebaad586f0008faecfe3ae62c307a",
         "type": "github"
       },
       "original": {
         "owner": "dawsers",
-        "ref": "refs/tags/1.12.20",
+        "ref": "refs/tags/1.12.21",
         "repo": "scroll",
         "type": "github"
       }
