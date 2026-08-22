@@ -5,7 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     scroll-stable = {
-      url = "github:dawsers/scroll?ref=refs/tags/1.12.20";
+      url = "github:dawsers/scroll?ref=refs/tags/1.12.21";
       flake = false;
     };
 
