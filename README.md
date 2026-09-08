@@ -31,6 +31,9 @@ To get started, just simply add the repository to your flake inputs:
 }
 ```
 
+> [!NOTE]
+> In case of a GitHub outage / provacy concerns / etc. a Codeberg mirror can be found [here](https://codeberg.org/OliMoli/scroll-flake).
+
 ## NixOS Module
 A NixOS module is available that provides an easy way to enable scroll, and additionally configure some basic options.
 
