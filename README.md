@@ -106,7 +106,7 @@ Now, you can use the scroll module anywhere in your configuration! Here's an exa
 > [!NOTE]
 > The NixOS module automatically installs [some packages](modules/nixos.nix#L127), such as portals, but also programs like kitty or pulseaudio. If you don't want to use them, override the `programs.scroll.extraPackages` option with whatever packages you'd like to be installed instead.
 
-To see all available options, you can reference the [module source](modules/nixos.nix) or Sway [NixOS module](https://mynixos.com/nixpkgs/options/programs.sway) from Nixpkgs, as they are both very similar.
+All available options are listed [here](docs/OS-OPTIONS.md).
 
 ## Home Manager module
 > [!NOTE]
@@ -151,7 +151,7 @@ A Home Manager module is available. Enable it by adding it to your flake:
 }
 ```
 
-Most options are the same as in the [Sway module](https://home-manager.dev/manual/26.05/options.xhtml#opt-wayland.windowManager.sway.enable). You can see the new options in [module source](modules/home/lib/options.nix) (search for `scroll` and `isScroll`)
+All available options are listed [here](docs/HM-OPTIONS.md).
 
 ## UWSM
 Add the following snippet to your configuration to integrate scroll with the Universal Wayland Session Manager:

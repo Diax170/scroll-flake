@@ -35,8 +35,8 @@ in
           null
         else
           wayland-lib.genFinalPackage p {
-            extraSessionCommands = cfg.extraSessionCommands;
-            extraOptions = cfg.extraOptions;
+            inherit (cfg) extraSessionCommands;
+            inherit (cfg) extraOptions;
             withBaseWrapper = cfg.wrapperFeatures.base;
             withGtkWrapper = cfg.wrapperFeatures.gtk;
             enableXWayland = cfg.xwayland.enable;

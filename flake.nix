@@ -25,7 +25,7 @@
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
       nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
     in
-    {
+    rec {
       packages = forAllSystems (
         system:
         let
@@ -41,15 +41,22 @@
               overlays = [ (import ./overlays/scroll-git.nix { inherit inputs; }) ];
             }
           );
+
+          mkOptionsDoc = module: import ./lib/options-doc.nix { inherit pkgs module; };
+
+          pkgs = nixpkgsFor.${system};
         in
         {
-          "scroll-stable" = scrollStablePkgs.sway;
-          "scroll-stable-unwrapped" = scrollStablePkgs.sway-unwrapped;
+          scroll-stable = scrollStablePkgs.sway;
+          scroll-stable-unwrapped = scrollStablePkgs.sway-unwrapped;
 
-          "scroll-git" = scrollGitPkgs.sway;
-          "scroll-git-unwrapped" = scrollGitPkgs.sway-unwrapped;
+          scroll-git = scrollGitPkgs.sway;
+          scroll-git-unwrapped = scrollGitPkgs.sway-unwrapped;
 
-          default = self.packages.${system}."scroll-stable";
+          nixos-options-doc = mkOptionsDoc nixosModules.default;
+          home-manager-options-doc = mkOptionsDoc homeModules.default;
+
+          default = self.packages.${system}.scroll-stable;
         }
       );
 

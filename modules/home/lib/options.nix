@@ -415,7 +415,7 @@ let
   animationModule = types.submodule {
     options = {
       # TODO: consider making this nullable
-      enable = lib.mkEnableOption { };
+      enable = lib.mkEnableOption "the animation";
 
       duration = mkOption {
         type = with lib.types; nullOr ints.unsigned;
@@ -608,7 +608,10 @@ in
 
           offset = mkOption {
             type = xy;
-            default = [ 40 40 ];
+            default = [
+              40
+              40
+            ];
             description = "Offset from the shadow from the window.";
           };
 
@@ -1241,7 +1244,12 @@ in
           options = {
             workspace = mkOption {
               # modded to allow int
-              type = with types; oneOf [ int str ];
+              type =
+                with types;
+                oneOf [
+                  int
+                  str
+                ];
               default = "";
               example = "Web";
               description = ''
@@ -1277,17 +1285,21 @@ in
       # Options copied from default config
       # https://github.com/dawsers/scroll/blob/master/config.in#L112
       options = {
-        enable = mkOption {
-          type = lib.types.bool;
+        enable = lib.mkEnableOption "animations" // {
           default = true;
         };
 
         style = mkOption {
-          type = lib.types.enum [
+          type = types.enum [
             "clip"
             "scale"
           ];
           default = "scale";
+          description = ''
+            The style to use for the animation.
+            `"clip"` clips the content, keeping the original content size,
+            while `"scale"` resizes the content while animating.
+          '';
         };
 
         default = mkOption {
@@ -1305,6 +1317,7 @@ in
               ];
             };
           };
+          description = "The default animation, also used as a fallback.";
         };
 
         windowOpen = mkOption {
@@ -1322,6 +1335,7 @@ in
               ];
             };
           };
+          description = "Animation curve to use while a window is being opened.";
         };
 
         windowMove = mkOption {
@@ -1355,6 +1369,7 @@ in
               ];
             };
           };
+          description = "Animation curve to use while moving windows.";
         };
 
         windowSize = mkOption {
@@ -1364,9 +1379,15 @@ in
             duration = 300;
             var = {
               order = 3;
-              controlPoints = [ (-0.35) 0 0 0.5 ];
+              controlPoints = [
+                (-0.35)
+                0
+                0
+                0.5
+              ];
             };
           };
+          description = "Animation curve to use while resizing windows.";
         };
 
         workspaceSwitch = mkOption {
@@ -1376,9 +1397,15 @@ in
             duration = 500;
             var = {
               order = "simple";
-              controlPoints = [ 0.215 0.61 0.355 1 ];
+              controlPoints = [
+                0.215
+                0.61
+                0.355
+                1
+              ];
             };
           };
+          description = "Animation curve to use while switching workspaces.";
         };
 
         windowFullscreen = mkOption {
@@ -1388,9 +1415,15 @@ in
             duration = 500;
             var = {
               order = "simple";
-              controlPoints = [ 0.3 0.5 0.4 1 ];
+              controlPoints = [
+                0.3
+                0.5
+                0.4
+                1
+              ];
             };
           };
+          description = "Animation curve to use while switching between fullscreen mode.";
         };
 
         jump = mkOption {
@@ -1400,9 +1433,15 @@ in
             duration = 500;
             var = {
               order = "simple";
-              controlPoints = [ 0.215 0.61 0.355 1 ];
+              controlPoints = [
+                0.215
+                0.61
+                0.355
+                1
+              ];
             };
           };
+          description = "Animation curve to use while entering/leaving the jump mode.";
         };
 
         layerShell = mkOption {
@@ -1412,9 +1451,15 @@ in
             duration = 300;
             var = {
               order = "simple";
-              controlPoints = [ 0 0 1 1 ];
+              controlPoints = [
+                0
+                0
+                1
+                1
+              ];
             };
           };
+          description = "Animation curve to use for the layer shell (like bars or menus).";
         };
 
         fadeIn = mkOption {
@@ -1424,9 +1469,15 @@ in
             duration = 300;
             var = {
               order = "simple";
-              controlPoints = [ 0.32 0 0.67 0 ];
+              controlPoints = [
+                0.32
+                0
+                0.67
+                0
+              ];
             };
           };
+          description = "Curve to use while a window is being opened for fade in animation.";
         };
 
         fadeOut = mkOption {
@@ -1436,9 +1487,15 @@ in
             duration = 300;
             var = {
               order = "simple";
-              controlPoints = [ 0.33 1 0.68 1 ];
+              controlPoints = [
+                0.33
+                1
+                0.68
+                1
+              ];
             };
           };
+          description = "Curve to use while a window is being closed for fade out animation.";
         };
 
         windowMoveFloat = mkOption {
@@ -1448,6 +1505,7 @@ in
             enable = true;
             duration = 300;
           };
+          description = "Animation curve to use while a floating window is being moved by keyboard.";
         };
 
         overview = mkOption {
@@ -1457,6 +1515,7 @@ in
             enable = true;
             duration = 300;
           };
+          description = "Animation curve to use while enetring/exiting the overview mode.";
         };
       };
     };
@@ -1531,9 +1590,9 @@ in
         };
       };
     };
+    description = "Configure jump mode options.";
   };
 
-  # TODO: document
   snap = mkOption {
     type = types.submodule {
       options = {
@@ -1576,6 +1635,7 @@ in
         };
       };
     };
+    description = "Configure window snapping options.";
   };
 
   # TODO: consider adding more Scroll options such as layout widths/heights
