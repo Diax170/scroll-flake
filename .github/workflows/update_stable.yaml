@@ -24,8 +24,9 @@ jobs:
           #!/usr/bin/env sh
           # Fetch latest release tag
           url="https://api.github.com/repos/dawsers/scroll/releases/latest"
-          tag_name="$(curl -s "$url" | jq -r ".tag_name")" || return
-          test -z "$tag_name" && return
+          tag_name="$(curl -s "$url" | jq -r ".tag_name")" || exit
+          test -z "$tag_name" && exit 1
+          test "$tag_name" = null && exit 1
 
           # Update flake.nix
           sed -Ei 's|^      url = "github:dawsers/scroll\?ref=refs/tags/.*";$|      url = "github:dawsers/scroll\?ref=refs/tags/'"$tag_name"'";|' flake.nix
