@@ -35,7 +35,7 @@ jobs:
           sed -Ei 's|(- 📦 `scroll-stable` — the latest tagged release of scroll \(currently ")[^"]+(")|\1'"$tag_name"'\2|' README.md
 
       - name: Commit and push changes
-        uses: devops-infra/action-commit-push@v1.1.0
+        uses: devops-infra/action-commit-push@v1.5.0
         with:
           github_token: ${{ github.token }}
           commit_message: "chore: update stable"
