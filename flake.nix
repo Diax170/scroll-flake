@@ -46,7 +46,7 @@
 
           pkgs = nixpkgsFor.${system};
         in
-        {
+        rec {
           scroll-stable = scrollStablePkgs.sway;
           scroll-stable-unwrapped = scrollStablePkgs.sway-unwrapped;
 
@@ -55,6 +55,18 @@
 
           nixos-options-doc = mkOptionsDoc nixosModules.default;
           home-manager-options-doc = mkOptionsDoc homeModules.default;
+
+          # Regenerates the docs: `nix run .#docs`
+          docs = pkgs.writeShellScriptBin "docs" ''
+            set -e
+            mkdir -p docs/
+            cp -f ${nixos-options-doc} docs/OS-OPTIONS.md
+            cp -f ${home-manager-options-doc} docs/HM-OPTIONS.md
+            chmod 644 docs/{OS,HM}-OPTIONS.md
+
+            # Remove "Declared by" sections
+            ${pkgs.lib.getExe pkgs.gnused} -i '/^\*Declared by:\*$/,/^[[:space:]]*$/d' docs/{OS,HM}-OPTIONS.md
+          '';
 
           default = self.packages.${system}.scroll-stable;
         }
