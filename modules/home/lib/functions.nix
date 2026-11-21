@@ -224,27 +224,41 @@ rec {
       prefix = concatStringsSep "" (lib.genList (_x: " ") (level * 2));
 
     in
-    (lib.imap1 (
+    lib.imap1 (
       i: v: "${if includesWrapper && (i == 1 || i == (lib.length list)) then v else "${prefix}${v}"}"
-    ) list);
+    ) list;
 
   listToStr = x: "[ ${builtins.concatStringsSep " " (map builtins.toString x)} ]"; # TODO: check if quoted numbers work
 
   anyNull = attrs: builtins.any (x: x == null) (builtins.attrValues attrs);
 
-  animationSetStr =
-    animation:
-    optionalString (animation != null) (
-      if animation.enable then
-        "yes"
-        + (optionalString (animation.duration != null) " ${toString animation.duration}")
-        + (optionalString (
-          !anyNull animation.var
-        ) " var ${toString animation.var.order} ${listToStr animation.var.controlPoints}")
-        + (optionalString (!anyNull animation.off)
-          " off ${toString animation.off.scale} ${toString animation.off.order} ${listToStr animation.off.controlPoints}"
-        )
-      else
-        "no"
+  camelToSnake =
+    s:
+    lib.concatStrings (
+      lib.imap0 (
+        i: c: (if i > 0 && c == lib.toUpper c && c != lib.toLower c then "_" else "") + lib.toLower c
+      ) (lib.stringToCharacters s)
     );
+
+  animationSetStr =
+    anim:
+    if anim.enable then
+      "yes"
+      + (
+        if anim.type ? curve then
+          with anim.type.curve;
+          (optionalString (duration != null) " ${toString duration}")
+          + (optionalString (!anyNull var) " var ${toString var.order} ${listToStr var.controlPoints}")
+          + (optionalString (
+            !anyNull off
+          ) " off ${toString off.scale} ${toString off.order} ${listToStr off.controlPoints}")
+        else if anim.type ? spring then
+          with anim.type.spring; " spring ${toString duration} ${toString damping}"
+        else if anim.type ? decay then
+          " decay ${toString anim.type.decay.rate}"
+        else
+          ""
+      )
+    else
+      "no";
 }

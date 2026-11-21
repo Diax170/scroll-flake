@@ -412,27 +412,22 @@ let
 
   curveOrder = with types; either ints.unsigned (enum [ "simple" ]);
 
-  animationModule = types.submodule {
+  curveModule = types.submodule {
     options = {
-      # TODO: consider making this nullable
-      enable = lib.mkEnableOption "the animation";
-
       duration = mkOption {
-        type = with lib.types; nullOr ints.unsigned;
+        type = with types; nullOr ints.unsigned;
         default = null;
         description = ''
           Duration of the animation in milliseconds.
         '';
       };
 
-      # TODO: make dedicated types for animation curves
-      # TODO: consider making var and off nullable directly not just via suboptions
       var = {
         order = mkOption {
           type = types.nullOr curveOrder;
           default = null;
           description = ''
-            Defines the order of the Bezier curve. See {manpage}`scroll(5)` for more details.
+            Order of the Bezier curve. See {manpage}`scroll(5)` for more details.
           '';
         };
 
@@ -440,7 +435,7 @@ let
           type = with types; nullOr (listOf number);
           default = null;
           description = ''
-            Defines the animation control points. See {manpage}`scroll(5)` for more details.
+            Animation control points. See {manpage}`scroll(5)` for more details.
           '';
         };
       };
@@ -450,7 +445,7 @@ let
           type = with types; nullOr number;
           default = null;
           description = ''
-            Defines the scale of the animation curve for the variable
+            Scale of the animation curve for the variable
             that doesn't change the operation/command.
             See {manpage}`scroll(5)` for more details.
           '';
@@ -460,7 +455,7 @@ let
           type = types.nullOr curveOrder;
           default = null;
           description = ''
-            Defines the scale of the animation curve for the variable
+            Curve order of the animation curve for the variable
             that doesn't change the operation/command.
             See {manpage}`scroll(5)` for more details.
           '';
@@ -470,11 +465,67 @@ let
           type = with types; nullOr (listOf number);
           default = null;
           description = ''
-            Defines the scale of the animation curve for the variable
+            Control points of the animation curve for the variable
             that doesn't change the operation/command.
             See {manpage}`scroll(5)` for more details.
           '';
         };
+      };
+    };
+  };
+
+  springModule = types.submodule {
+    options = {
+      duration = mkOption {
+        type = types.ints.unsigned;
+        description = "Time in ms in which the spring gets to the destination.";
+      };
+
+      damping = mkOption {
+        type = types.number;
+        description = ''
+          The bounciness ratio; for <1 the spring goes
+          past the destination, for =1 it gets to the
+          destination ASAP, and for >1 it approaches slowly.
+        '';
+      };
+    };
+  };
+
+  decayModule = types.submodule {
+    options = {
+      rate = mkOption {
+        type = types.ints.unsigned;
+        description = ''
+          Every second, the distance left is divided by `e` `rate` times.
+          The higher the rate, the shorter the animation.
+        '';
+      };
+    };
+  };
+
+  animationModule = types.submodule {
+    options = {
+      # TODO: consider making this nullable
+      enable = lib.mkEnableOption "the animation";
+
+      type = mkOption {
+        type = types.attrTag {
+          curve = mkOption {
+            type = curveModule;
+            description = "Bezier curve animation.";
+          };
+          spring = mkOption {
+            type = springModule;
+            description = "Spring animation.";
+          };
+          decay = mkOption {
+            type = decayModule;
+            description = "Decay animation.";
+          };
+        };
+        default.var = { };
+        description = "What type of animation to use.";
       };
     };
   };
@@ -1290,10 +1341,7 @@ in
         };
 
         style = mkOption {
-          type = types.enum [
-            "clip"
-            "scale"
-          ];
+          type = types.enum [ "clip" "scale" ];
           default = "scale";
           description = ''
             The style to use for the animation.
@@ -1302,19 +1350,22 @@ in
           '';
         };
 
+        crossfade = mkOption {
+          type = types.bool;
+          default = true;
+          description = "Whether to fade window content when resizing windows.";
+        };
+
         default = mkOption {
           type = animationModule;
           default = {
             enable = true;
-            duration = 300;
-            var = {
-              order = 3;
-              controlPoints = [
-                0.215
-                0.61
-                0.355
-                1
-              ];
+            type.curve = {
+              duration = 300;
+              var = {
+                order = 3;
+                controlPoints = [ 0.215 0.61 0.355 1 ];
+              };
             };
           };
           description = "The default animation, also used as a fallback.";
@@ -1324,178 +1375,151 @@ in
           type = animationModule;
           default = {
             enable = true;
-            duration = 300;
-            var = {
-              order = 3;
-              controlPoints = [
-                0
-                0
-                1
-                1
-              ];
+            type.curve = {
+              duration = 300;
+              var = {
+                order = 3;
+                controlPoints = [ 0 0 1 1 ];
+              };
             };
           };
-          description = "Animation curve to use while a window is being opened.";
+          description = "Animation used for opening windows.";
         };
 
         windowMove = mkOption {
           type = animationModule;
           default = {
             enable = true;
-            duration = 300;
-            var = {
-              order = 3;
-              controlPoints = [
-                0.215
-                0.61
-                0.355
-                1
-              ];
-            };
-            off = {
-              scale = 0.05;
-              order = 6;
-              controlPoints = [
-                0
-                0.06
-                0.04
-                0
-                1
-                0
-                0.4
-                (-0.6)
-                1
-                (-0.6)
-              ];
+            type.curve = {
+              duration = 300;
+              var = {
+                order = 3;
+                controlPoints = [ 0.215 0.61 0.355 1 ];
+              };
+              off = {
+                scale = 0.05;
+                order = 6;
+                controlPoints = [
+                  0
+                  0.06
+                  0.04
+                  0
+                  1
+                  0
+                  0.4
+                  (-0.6)
+                  1
+                  (-0.6)
+                ];
+              };
             };
           };
-          description = "Animation curve to use while moving windows.";
+          description = "Animation used for moving windows.";
         };
 
         windowSize = mkOption {
           type = animationModule;
           default = {
             enable = true;
-            duration = 300;
-            var = {
-              order = 3;
-              controlPoints = [
-                (-0.35)
-                0
-                0
-                0.5
-              ];
+            type.curve = {
+              duration = 300;
+              var = {
+                order = 3;
+                controlPoints = [ (-0.35) 0 0 0.5 ];
+              };
             };
           };
-          description = "Animation curve to use while resizing windows.";
+          description = "Animation used for resizing windows.";
         };
 
         workspaceSwitch = mkOption {
           type = animationModule;
           default = {
             enable = true;
-            duration = 500;
-            var = {
-              order = "simple";
-              controlPoints = [
-                0.215
-                0.61
-                0.355
-                1
-              ];
+            type.curve = {
+              duration = 500;
+              var = {
+                order = "simple";
+                controlPoints = [ 0.215 0.61 0.355 1 ];
+              };
             };
           };
-          description = "Animation curve to use while switching workspaces.";
+          description = "Animation used for switching workspaces.";
         };
 
         windowFullscreen = mkOption {
           type = animationModule;
           default = {
             enable = true;
-            duration = 500;
-            var = {
-              order = "simple";
-              controlPoints = [
-                0.3
-                0.5
-                0.4
-                1
-              ];
+            type.curve = {
+              duration = 500;
+              var = {
+                order = "simple";
+                controlPoints = [ 0.3 0.5 0.4 1 ];
+              };
             };
           };
-          description = "Animation curve to use while switching between fullscreen mode.";
+          description = "Animation used while switching between fullscreen mode.";
         };
 
         jump = mkOption {
           type = animationModule;
           default = {
             enable = true;
-            duration = 500;
-            var = {
-              order = "simple";
-              controlPoints = [
-                0.215
-                0.61
-                0.355
-                1
-              ];
+            type.curve = {
+              duration = 500;
+              var = {
+                order = "simple";
+                controlPoints = [ 0.215 0.61 0.355 1 ];
+              };
             };
           };
-          description = "Animation curve to use while entering/leaving the jump mode.";
+          description = "Animation used while entering/leaving the jump mode.";
         };
 
         layerShell = mkOption {
           type = animationModule;
           default = {
             enable = true;
-            duration = 300;
-            var = {
-              order = "simple";
-              controlPoints = [
-                0
-                0
-                1
-                1
-              ];
+            type.curve = {
+              duration = 300;
+              var = {
+                order = "simple";
+                controlPoints = [ 0 0 1 1 ];
+              };
             };
           };
-          description = "Animation curve to use for the layer shell (like bars or menus).";
+          description = "Animation used for the layer shell (like bars or menus).";
         };
 
         fadeIn = mkOption {
           type = animationModule;
           default = {
             enable = true;
-            duration = 300;
-            var = {
-              order = "simple";
-              controlPoints = [
-                0.32
-                0
-                0.67
-                0
-              ];
+            type.curve = {
+              duration = 300;
+              var = {
+                order = "simple";
+                controlPoints = [ 0.32 0 0.67 0 ];
+              };
             };
           };
-          description = "Curve to use while a window is being opened for fade in animation.";
+          description = "Animation used while a window is being opened for fade in animation.";
         };
 
         fadeOut = mkOption {
           type = animationModule;
           default = {
             enable = true;
-            duration = 300;
-            var = {
-              order = "simple";
-              controlPoints = [
-                0.33
-                1
-                0.68
-                1
-              ];
+            type.curve = {
+              duration = 300;
+              var = {
+                order = "simple";
+                controlPoints = [ 0.33 1 0.68 1 ];
+              };
             };
           };
-          description = "Curve to use while a window is being closed for fade out animation.";
+          description = "Animation used while a window is being closed for fade out animation.";
         };
 
         windowMoveFloat = mkOption {
@@ -1503,9 +1527,9 @@ in
           default = {
             # TODO: supply default values
             enable = true;
-            duration = 300;
+            type.curve.duration = 300;
           };
-          description = "Animation curve to use while a floating window is being moved by keyboard.";
+          description = "Animation used while a floating window is being moved by keyboard.";
         };
 
         overview = mkOption {
@@ -1513,9 +1537,15 @@ in
           default = {
             # TODO: supply default values
             enable = true;
-            duration = 300;
+            type.curve.duration = 300;
           };
-          description = "Animation curve to use while enetring/exiting the overview mode.";
+          description = "Animation used while enetring/exiting the overview type.";
+        };
+
+        gesture = mkOption {
+          type = animationModule;
+          default.type.decay.rate = 8;
+          description = "Animation used during the scroll gesture (floating_mod+MMB / touchpad).";
         };
       };
     };

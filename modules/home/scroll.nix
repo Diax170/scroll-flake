@@ -385,6 +385,7 @@ let
     keybindingDefaultWorkspace
     keybindingsRest
     workspaceOutputStr
+    camelToSnake
     animationSetStr
     listToStr
     ;
@@ -422,14 +423,15 @@ let
     ${moduleType} "${name}" {
     ${concatStringsSep "\n" (
       lib.mapAttrsToList (
-        name: value: "  ${name} ${
-          if builtins.isList value then
-            listToStr value
-          else if builtins.isBool value then
-            lib.hm.booleans.yesNo value
-          else 
-            toString value
-        }"
+        name: value:
+        "  ${name} ${
+            if builtins.isList value then
+              listToStr value
+            else if builtins.isBool value then
+              lib.hm.booleans.yesNo value
+            else
+              toString value
+          }"
       ) attrs
     )}
     }
@@ -509,6 +511,7 @@ let
               # Scroll
               "animations enabled ${lib.hm.booleans.yesNo animations.enable}"
               "animations style ${animations.style}"
+              "animations crossfade ${lib.hm.booleans.yesNo animations.crossfade}"
 
               "jump_labels_background '${jump.labels.background}'"
               "jump_labels_color '${jump.labels.color}'"
@@ -557,21 +560,9 @@ let
             ++ map startupEntryStr startup # startup
             ++ map workspaceOutputStr workspaceOutputAssign # custom mapping
             # Scroll
-            # TODO: find a cleaner approach
-            ++ map (x: "animations ${x} ${animationSetStr animations.${lib.toCamelCase x}}") [
-              "default"
-              "window_open"
-              "window_move"
-              "window_size"
-              "workspace_switch"
-              "window_fullscreen"
-              "jump"
-              "layer_shell"
-              "fade_in"
-              "fade_out"
-              "window_move_float"
-              "overview"
-            ]
+            ++ lib.mapAttrsToList (n: v: "animations ${camelToSnake n} ${animationSetStr v}") (
+              lib.filterAttrs (_: v: builtins.isAttrs v) animations
+            )
           )
         else
           [ ]

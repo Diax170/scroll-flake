@@ -143,6 +143,27 @@ true
 
 
 
+## wayland\.windowManager\.scroll\.config\.animations\.crossfade
+
+
+
+Whether to fade window content when resizing windows\.
+
+
+
+*Type:*
+boolean
+
+
+
+*Default:*
+
+```nix
+true
+```
+
+
+
 ## wayland\.windowManager\.scroll\.config\.animations\.default
 
 
@@ -160,16 +181,20 @@ submodule
 
 ```nix
 {
-  duration = 300;
   enable = true;
-  var = {
-    controlPoints = [
-      0.215
-      0.61
-      0.355
-      1
-    ];
-    order = 3;
+  type = {
+    curve = {
+      duration = 300;
+      var = {
+        controlPoints = [
+          0.215
+          0.61
+          0.355
+          1
+        ];
+        order = 3;
+      };
+    };
   };
 }
 ```
@@ -205,7 +230,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.default\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.curve\.duration
 
 
 
@@ -226,11 +287,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.default\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.curve\.off\.controlPoints
 
 
 
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -249,11 +310,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.default\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -272,11 +333,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.default\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -295,11 +356,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.default\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -316,11 +377,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.default\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.curve\.var\.order
 
 
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -337,11 +398,79 @@ null
 
 
 
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.default\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
 ## wayland\.windowManager\.scroll\.config\.animations\.fadeIn
 
 
 
-Curve to use while a window is being opened for fade in animation\.
+Animation used while a window is being opened for fade in animation\.
 
 
 
@@ -354,16 +483,20 @@ submodule
 
 ```nix
 {
-  duration = 300;
   enable = true;
-  var = {
-    controlPoints = [
-      0.32
-      0
-      0.67
-      0
-    ];
-    order = "simple";
+  type = {
+    curve = {
+      duration = 300;
+      var = {
+        controlPoints = [
+          0.32
+          0
+          0.67
+          0
+        ];
+        order = "simple";
+      };
+    };
   };
 }
 ```
@@ -399,7 +532,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.curve\.duration
 
 
 
@@ -420,11 +589,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.curve\.off\.controlPoints
 
 
 
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -443,11 +612,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -466,11 +635,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -489,11 +658,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -510,11 +679,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.curve\.var\.order
 
 
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -531,11 +700,79 @@ null
 
 
 
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeIn\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
 ## wayland\.windowManager\.scroll\.config\.animations\.fadeOut
 
 
 
-Curve to use while a window is being closed for fade out animation\.
+Animation used while a window is being closed for fade out animation\.
 
 
 
@@ -548,16 +785,20 @@ submodule
 
 ```nix
 {
-  duration = 300;
   enable = true;
-  var = {
-    controlPoints = [
-      0.33
-      1
-      0.68
-      1
-    ];
-    order = "simple";
+  type = {
+    curve = {
+      duration = 300;
+      var = {
+        controlPoints = [
+          0.33
+          1
+          0.68
+          1
+        ];
+        order = "simple";
+      };
+    };
   };
 }
 ```
@@ -593,7 +834,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.curve\.duration
 
 
 
@@ -614,11 +891,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.curve\.off\.controlPoints
 
 
 
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -637,11 +914,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -660,11 +937,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -683,11 +960,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -704,11 +981,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.curve\.var\.order
 
 
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -725,11 +1002,79 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.jump
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.decay
 
 
 
-Animation curve to use while entering/leaving the jump mode\.
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.fadeOut\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture
+
+
+
+Animation used during the scroll gesture (floating_mod+MMB / touchpad)\.
 
 
 
@@ -742,16 +1087,312 @@ submodule
 
 ```nix
 {
-  duration = 500;
+  type = {
+    decay = {
+      rate = 8;
+    };
+  };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.enable
+
+
+
+Whether to enable the animation\.
+
+
+
+*Type:*
+boolean
+
+
+
+*Default:*
+
+```nix
+false
+```
+
+
+
+*Example:*
+
+```nix
+true
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.curve\.duration
+
+
+
+Duration of the animation in milliseconds\.
+
+
+
+*Type:*
+null or (unsigned integer, meaning >=0)
+
+
+
+*Default:*
+
+```nix
+null
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.curve\.off\.controlPoints
+
+
+
+Control points of the animation curve for the variable
+that doesn’t change the operation/command\.
+See ` scroll(5) ` for more details\.
+
+
+
+*Type:*
+null or (list of (signed integer or floating point number))
+
+
+
+*Default:*
+
+```nix
+null
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.curve\.off\.order
+
+
+
+Curve order of the animation curve for the variable
+that doesn’t change the operation/command\.
+See ` scroll(5) ` for more details\.
+
+
+
+*Type:*
+null or unsigned integer, meaning >=0, or value “simple” (singular enum)
+
+
+
+*Default:*
+
+```nix
+null
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.curve\.off\.scale
+
+
+
+Scale of the animation curve for the variable
+that doesn’t change the operation/command\.
+See ` scroll(5) ` for more details\.
+
+
+
+*Type:*
+null or signed integer or floating point number
+
+
+
+*Default:*
+
+```nix
+null
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.curve\.var\.controlPoints
+
+
+
+Animation control points\. See ` scroll(5) ` for more details\.
+
+
+
+*Type:*
+null or (list of (signed integer or floating point number))
+
+
+
+*Default:*
+
+```nix
+null
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.curve\.var\.order
+
+
+
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
+
+
+
+*Type:*
+null or unsigned integer, meaning >=0, or value “simple” (singular enum)
+
+
+
+*Default:*
+
+```nix
+null
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.gesture\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.jump
+
+
+
+Animation used while entering/leaving the jump mode\.
+
+
+
+*Type:*
+submodule
+
+
+
+*Default:*
+
+```nix
+{
   enable = true;
-  var = {
-    controlPoints = [
-      0.215
-      0.61
-      0.355
-      1
-    ];
-    order = "simple";
+  type = {
+    curve = {
+      duration = 500;
+      var = {
+        controlPoints = [
+          0.215
+          0.61
+          0.355
+          1
+        ];
+        order = "simple";
+      };
+    };
   };
 }
 ```
@@ -787,7 +1428,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.jump\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.curve\.duration
 
 
 
@@ -808,11 +1485,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.jump\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.curve\.off\.controlPoints
 
 
 
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -831,11 +1508,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.jump\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -854,11 +1531,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.jump\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -877,11 +1554,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.jump\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -898,11 +1575,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.jump\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.curve\.var\.order
 
 
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -919,11 +1596,79 @@ null
 
 
 
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.jump\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
 ## wayland\.windowManager\.scroll\.config\.animations\.layerShell
 
 
 
-Animation curve to use for the layer shell (like bars or menus)\.
+Animation used for the layer shell (like bars or menus)\.
 
 
 
@@ -936,16 +1681,20 @@ submodule
 
 ```nix
 {
-  duration = 300;
   enable = true;
-  var = {
-    controlPoints = [
-      0
-      0
-      1
-      1
-    ];
-    order = "simple";
+  type = {
+    curve = {
+      duration = 300;
+      var = {
+        controlPoints = [
+          0
+          0
+          1
+          1
+        ];
+        order = "simple";
+      };
+    };
   };
 }
 ```
@@ -981,7 +1730,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.curve\.duration
 
 
 
@@ -1002,11 +1787,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.curve\.off\.controlPoints
 
 
 
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1025,11 +1810,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1048,11 +1833,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1071,11 +1856,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -1092,11 +1877,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.curve\.var\.order
 
 
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -1113,11 +1898,79 @@ null
 
 
 
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.layerShell\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
 ## wayland\.windowManager\.scroll\.config\.animations\.overview
 
 
 
-Animation curve to use while enetring/exiting the overview mode\.
+Animation used while enetring/exiting the overview type\.
 
 
 
@@ -1130,8 +1983,12 @@ submodule
 
 ```nix
 {
-  duration = 300;
   enable = true;
+  type = {
+    curve = {
+      duration = 300;
+    };
+  };
 }
 ```
 
@@ -1166,7 +2023,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.overview\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.curve\.duration
 
 
 
@@ -1187,11 +2080,9 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.overview\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.curve\.off\.controlPoints
 
-
-
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1210,11 +2101,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.overview\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1233,11 +2124,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.overview\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1256,11 +2147,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.overview\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -1277,11 +2168,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.overview\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.curve\.var\.order
 
 
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -1295,6 +2186,74 @@ null or unsigned integer, meaning >=0, or value “simple” (singular enum)
 ```nix
 null
 ```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.overview\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
 
 
 
@@ -1325,7 +2284,7 @@ one of “clip”, “scale”
 
 
 
-Animation curve to use while switching between fullscreen mode\.
+Animation used while switching between fullscreen mode\.
 
 
 
@@ -1338,16 +2297,20 @@ submodule
 
 ```nix
 {
-  duration = 500;
   enable = true;
-  var = {
-    controlPoints = [
-      0.3
-      0.5
-      0.4
-      1
-    ];
-    order = "simple";
+  type = {
+    curve = {
+      duration = 500;
+      var = {
+        controlPoints = [
+          0.3
+          0.5
+          0.4
+          1
+        ];
+        order = "simple";
+      };
+    };
   };
 }
 ```
@@ -1383,7 +2346,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.curve\.duration
 
 
 
@@ -1404,11 +2403,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.curve\.off\.controlPoints
 
 
 
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1427,11 +2426,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1450,11 +2449,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1473,11 +2472,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -1494,11 +2493,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.curve\.var\.order
 
 
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -1515,11 +2514,79 @@ null
 
 
 
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowFullscreen\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
 ## wayland\.windowManager\.scroll\.config\.animations\.windowMove
 
 
 
-Animation curve to use while moving windows\.
+Animation used for moving windows\.
 
 
 
@@ -1532,32 +2599,36 @@ submodule
 
 ```nix
 {
-  duration = 300;
   enable = true;
-  off = {
-    controlPoints = [
-      0
-      0.06
-      0.04
-      0
-      1
-      0
-      0.4
-      -0.6
-      1
-      -0.6
-    ];
-    order = 6;
-    scale = 0.05;
-  };
-  var = {
-    controlPoints = [
-      0.215
-      0.61
-      0.355
-      1
-    ];
-    order = 3;
+  type = {
+    curve = {
+      duration = 300;
+      off = {
+        controlPoints = [
+          0
+          0.06
+          0.04
+          0
+          1
+          0
+          0.4
+          -0.6
+          1
+          -0.6
+        ];
+        order = 6;
+        scale = 0.05;
+      };
+      var = {
+        controlPoints = [
+          0.215
+          0.61
+          0.355
+          1
+        ];
+        order = 3;
+      };
+    };
   };
 }
 ```
@@ -1593,7 +2664,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.curve\.duration
 
 
 
@@ -1614,11 +2721,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.curve\.off\.controlPoints
 
 
 
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1637,11 +2744,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1660,11 +2767,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1683,11 +2790,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -1704,11 +2811,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.curve\.var\.order
 
 
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -1725,11 +2832,79 @@ null
 
 
 
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMove\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
 ## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat
 
 
 
-Animation curve to use while a floating window is being moved by keyboard\.
+Animation used while a floating window is being moved by keyboard\.
 
 
 
@@ -1742,8 +2917,12 @@ submodule
 
 ```nix
 {
-  duration = 300;
   enable = true;
+  type = {
+    curve = {
+      duration = 300;
+    };
+  };
 }
 ```
 
@@ -1778,7 +2957,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.curve\.duration
 
 
 
@@ -1799,11 +3014,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.curve\.off\.controlPoints
 
 
 
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1822,11 +3037,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1845,11 +3060,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -1868,11 +3083,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -1889,11 +3104,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.curve\.var\.order
 
 
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -1910,11 +3125,79 @@ null
 
 
 
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowMoveFloat\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
 ## wayland\.windowManager\.scroll\.config\.animations\.windowOpen
 
 
 
-Animation curve to use while a window is being opened\.
+Animation used for opening windows\.
 
 
 
@@ -1927,16 +3210,20 @@ submodule
 
 ```nix
 {
-  duration = 300;
   enable = true;
-  var = {
-    controlPoints = [
-      0
-      0
-      1
-      1
-    ];
-    order = 3;
+  type = {
+    curve = {
+      duration = 300;
+      var = {
+        controlPoints = [
+          0
+          0
+          1
+          1
+        ];
+        order = 3;
+      };
+    };
   };
 }
 ```
@@ -1972,7 +3259,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.curve\.duration
 
 
 
@@ -1993,11 +3316,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.curve\.off\.controlPoints
 
 
 
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -2016,11 +3339,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -2039,11 +3362,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -2062,11 +3385,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -2083,11 +3406,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.curve\.var\.order
 
 
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -2104,11 +3427,79 @@ null
 
 
 
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowOpen\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
 ## wayland\.windowManager\.scroll\.config\.animations\.windowSize
 
 
 
-Animation curve to use while resizing windows\.
+Animation used for resizing windows\.
 
 
 
@@ -2121,16 +3512,20 @@ submodule
 
 ```nix
 {
-  duration = 300;
   enable = true;
-  var = {
-    controlPoints = [
-      -0.35
-      0
-      0
-      0.5
-    ];
-    order = 3;
+  type = {
+    curve = {
+      duration = 300;
+      var = {
+        controlPoints = [
+          -0.35
+          0
+          0
+          0.5
+        ];
+        order = 3;
+      };
+    };
   };
 }
 ```
@@ -2166,7 +3561,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.curve\.duration
 
 
 
@@ -2187,11 +3618,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.curve\.off\.controlPoints
 
 
 
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -2210,11 +3641,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -2233,11 +3664,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -2256,11 +3687,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -2277,11 +3708,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.curve\.var\.order
 
 
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -2298,11 +3729,79 @@ null
 
 
 
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.windowSize\.type\.spring\.duration
+
+
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
 ## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch
 
 
 
-Animation curve to use while switching workspaces\.
+Animation used for switching workspaces\.
 
 
 
@@ -2315,16 +3814,20 @@ submodule
 
 ```nix
 {
-  duration = 500;
   enable = true;
-  var = {
-    controlPoints = [
-      0.215
-      0.61
-      0.355
-      1
-    ];
-    order = "simple";
+  type = {
+    curve = {
+      duration = 500;
+      var = {
+        controlPoints = [
+          0.215
+          0.61
+          0.355
+          1
+        ];
+        order = "simple";
+      };
+    };
   };
 }
 ```
@@ -2360,7 +3863,43 @@ true
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.duration
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type
+
+
+
+What type of animation to use\.
+
+
+
+*Type:*
+attribute-tagged union with choices: curve, decay, spring
+
+
+
+*Default:*
+
+```nix
+{
+  var = { };
+}
+```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.curve
+
+
+
+Bezier curve animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.curve\.duration
 
 
 
@@ -2381,11 +3920,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.off\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.curve\.off\.controlPoints
 
 
 
-Defines the scale of the animation curve for the variable
+Control points of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -2404,11 +3943,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.off\.order
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.curve\.off\.order
 
 
 
-Defines the scale of the animation curve for the variable
+Curve order of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -2427,11 +3966,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.off\.scale
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.curve\.off\.scale
 
 
 
-Defines the scale of the animation curve for the variable
+Scale of the animation curve for the variable
 that doesn’t change the operation/command\.
 See ` scroll(5) ` for more details\.
 
@@ -2450,11 +3989,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.var\.controlPoints
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.curve\.var\.controlPoints
 
 
 
-Defines the animation control points\. See ` scroll(5) ` for more details\.
+Animation control points\. See ` scroll(5) ` for more details\.
 
 
 
@@ -2471,9 +4010,11 @@ null
 
 
 
-## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.var\.order
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.curve\.var\.order
 
-Defines the order of the Bezier curve\. See ` scroll(5) ` for more details\.
+
+
+Order of the Bezier curve\. See ` scroll(5) ` for more details\.
 
 
 
@@ -2487,6 +4028,72 @@ null or unsigned integer, meaning >=0, or value “simple” (singular enum)
 ```nix
 null
 ```
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.decay
+
+
+
+Decay animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.decay\.rate
+
+
+
+Every second, the distance left is divided by ` e ` ` rate ` times\.
+The higher the rate, the shorter the animation\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.spring
+
+
+
+Spring animation\.
+
+
+
+*Type:*
+submodule
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.spring\.damping
+
+
+
+The bounciness ratio; for \<1 the spring goes
+past the destination, for =1 it gets to the
+destination ASAP, and for >1 it approaches slowly\.
+
+
+
+*Type:*
+signed integer or floating point number
+
+
+
+## wayland\.windowManager\.scroll\.config\.animations\.workspaceSwitch\.type\.spring\.duration
+
+Time in ms in which the spring gets to the destination\.
+
+
+
+*Type:*
+unsigned integer, meaning >=0
 
 
 

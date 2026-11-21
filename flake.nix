@@ -92,6 +92,6 @@
       );
 
       nixosModules.default = import ./modules/nixos.nix { inherit self; };
-      homeModules.default = import ./modules/home/home.nix { inherit self; };
+      homeModules.default = import ./modules/home/default.nix { inherit self; };
     };
 }
