@@ -247,7 +247,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -549,7 +549,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -851,7 +851,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -1143,7 +1143,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -1445,7 +1445,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -1747,7 +1747,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -2040,7 +2040,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -2363,7 +2363,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -2681,7 +2681,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -2974,7 +2974,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -3276,7 +3276,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -3578,7 +3578,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
@@ -3880,7 +3880,7 @@ attribute-tagged union with choices: curve, decay, spring
 
 ```nix
 {
-  var = { };
+  curve = { };
 }
 ```
 
