@@ -524,10 +524,16 @@ let
             description = "Decay animation.";
           };
         };
-        default.var = { };
+        default.curve = { };
         description = "What type of animation to use.";
       };
     };
+
+    imports = map (
+      opt: lib.mkRenamedOptionModule
+        [ opt ]
+        [ "type" "curve" opt ]
+    ) [ "duration" "var" "off" ];
   };
 
   # Type used as a position [ x y ]
