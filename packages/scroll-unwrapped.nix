@@ -1,6 +1,8 @@
 {
   src,
   pkgs,
+  lib ? pkgs.lib,
+  json_c,
   ...
 }:
 pkgs.sway-unwrapped.overrideAttrs (old: {
@@ -25,7 +27,7 @@ pkgs.sway-unwrapped.overrideAttrs (old: {
     ]);
 
   buildInputs =
-    old.buildInputs
+    (lib.remove pkgs.json_c old.buildInputs)
     ++ (with pkgs; [
       lua54Packages.lua
       vulkan-loader
@@ -38,5 +40,6 @@ pkgs.sway-unwrapped.overrideAttrs (old: {
       libliftoff
       libgbm
       readline
+      json_c
     ]);
 })

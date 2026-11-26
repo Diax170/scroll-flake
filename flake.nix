@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    json_c = {
+      url = "github:json-c/json-c";
+      flake = false;
+    };
+
     scroll-stable = {
       url = "github:dawsers/scroll?ref=refs/tags/1.12.21";
       flake = false;
@@ -18,22 +23,35 @@
   outputs =
     inputs@{ self, nixpkgs, ... }:
     let
+      inherit (nixpkgs) lib;
       forAllSystems =
         callback:
-        nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (
-          system: callback nixpkgs.legacyPackages.${system}
-        );
+        lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (system: callback nixpkgs.legacyPackages.${system});
     in
     rec {
       packages = forAllSystems (
         pkgs:
         let
+          json_c = import ./packages/json_c.nix {
+            inherit pkgs;
+            src = inputs.json_c;
+          };
+
           # look at the package definitions in nixpkgs for a better view of what's happening
-          mkScroll = src: import ./packages/scroll-unwrapped.nix { inherit pkgs src; };
+          mkScroll =
+            src:
+            import ./packages/scroll-unwrapped.nix {
+              inherit
+                pkgs
+                lib
+                src
+                json_c
+                ;
+            };
 
           wrap = unwrapped: import ./packages/scroll.nix { inherit pkgs unwrapped; };
 
-          mkOptionsDoc = module: import ./packages/options-doc.nix { inherit pkgs module; };
+          mkOptionsDoc = module: import ./packages/options-doc.nix { inherit pkgs lib module; };
         in
         rec {
           scroll-stable-unwrapped = mkScroll inputs.scroll-stable;
@@ -54,7 +72,7 @@
             chmod 644 docs/{OS,HM}-OPTIONS.md
 
             # Remove "Declared by" sections
-            ${pkgs.lib.getExe pkgs.gnused} -i '/^\*Declared by:\*$/,/^[[:space:]]*$/d' docs/{OS,HM}-OPTIONS.md
+            ${lib.getExe pkgs.gnused} -i '/^\*Declared by:\*$/,/^[[:space:]]*$/d' docs/{OS,HM}-OPTIONS.md
           '';
 
           default = self.packages.${pkgs.stdenv.hostPlatform.system}.scroll-stable;
