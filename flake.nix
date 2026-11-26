@@ -18,45 +18,34 @@
   outputs =
     inputs@{ self, nixpkgs, ... }:
     let
-      supportedSystems = [
-        "x86_64-linux"
-        "aarch64-linux"
-      ];
-      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
-      nixpkgsFor = forAllSystems (system: import nixpkgs { inherit system; });
+      forAllSystems =
+        callback:
+        nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (
+          system: callback nixpkgs.legacyPackages.${system}
+        );
     in
     rec {
       packages = forAllSystems (
-        system:
+        pkgs:
         let
-          scrollStablePkgs = (
-            import nixpkgs {
-              inherit system;
-              overlays = [ (import ./overlays/scroll-stable.nix { inherit inputs; }) ];
-            }
-          );
-          scrollGitPkgs = (
-            import nixpkgs {
-              inherit system;
-              overlays = [ (import ./overlays/scroll-git.nix { inherit inputs; }) ];
-            }
-          );
+          # look at the package definitions in nixpkgs for a better view of what's happening
+          mkScroll = src: import ./packages/scroll-unwrapped.nix { inherit pkgs src; };
 
-          mkOptionsDoc = module: import ./lib/options-doc.nix { inherit pkgs module; };
+          wrap = unwrapped: import ./packages/scroll.nix { inherit pkgs unwrapped; };
 
-          pkgs = nixpkgsFor.${system};
+          mkOptionsDoc = module: import ./packages/options-doc.nix { inherit pkgs module; };
         in
         rec {
-          scroll-stable = scrollStablePkgs.sway;
-          scroll-stable-unwrapped = scrollStablePkgs.sway-unwrapped;
+          scroll-stable-unwrapped = mkScroll inputs.scroll-stable;
+          scroll-stable = wrap scroll-stable-unwrapped;
 
-          scroll-git = scrollGitPkgs.sway;
-          scroll-git-unwrapped = scrollGitPkgs.sway-unwrapped;
+          scroll-git-unwrapped = mkScroll inputs.scroll-git;
+          scroll-git = wrap scroll-git-unwrapped;
 
           nixos-options-doc = mkOptionsDoc nixosModules.default;
           home-manager-options-doc = mkOptionsDoc homeModules.default;
 
-          # Regenerates the docs: `nix run .#docs`
+          # Regenerate the docs: `nix run .#docs`
           docs = pkgs.writeShellScriptBin "docs" ''
             set -e
             mkdir -p docs/
@@ -68,15 +57,14 @@
             ${pkgs.lib.getExe pkgs.gnused} -i '/^\*Declared by:\*$/,/^[[:space:]]*$/d' docs/{OS,HM}-OPTIONS.md
           '';
 
-          default = self.packages.${system}.scroll-stable;
+          default = self.packages.${pkgs.stdenv.hostPlatform.system}.scroll-stable;
         }
       );
 
       devShells = forAllSystems (
-        system:
+        pkgs:
         let
-          pkgs = nixpkgsFor.${system};
-          scroll-unwrapped = self.packages.${pkgs.system}.scroll-git-unwrapped;
+          scroll-unwrapped = self.packages.${pkgs.stdenv.hostPlatform.system}.scroll-git-unwrapped;
         in
         {
           default = pkgs.mkShell {
