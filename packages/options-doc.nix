@@ -1,6 +1,9 @@
 {
   pkgs,
-  lib ? pkgs.lib,
+  lib,
+  runCommand,
+  nixosOptionsDoc,
+
   module,
 }:
 let
@@ -15,8 +18,8 @@ let
     ];
   };
   cleanEval = lib.filterAttrsRecursive (n: v: n != "_module") eval;
-  optionsDoc = pkgs.nixosOptionsDoc { inherit (cleanEval) options; };
+  optionsDoc = nixosOptionsDoc { inherit (cleanEval) options; };
 in
-pkgs.runCommand "OPTIONS.md" { } ''
+runCommand "OPTIONS.md" { } ''
   cp ${optionsDoc.optionsCommonMark} $out
 ''

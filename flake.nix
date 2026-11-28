@@ -32,26 +32,14 @@
       packages = forAllSystems (
         pkgs:
         let
-          json_c = import ./packages/json_c.nix {
-            inherit pkgs;
-            src = inputs.json_c;
-          };
+          new-json_c = pkgs.callPackage ./packages/json_c.nix { src = inputs.json_c; };
 
           # look at the package definitions in nixpkgs for a better view of what's happening
-          mkScroll =
-            src:
-            import ./packages/scroll-unwrapped.nix {
-              inherit
-                pkgs
-                lib
-                src
-                json_c
-                ;
-            };
+          mkScroll = src: pkgs.callPackage ./packages/scroll-unwrapped.nix { inherit src new-json_c; };
 
-          wrap = unwrapped: import ./packages/scroll.nix { inherit pkgs unwrapped; };
+          wrap = unwrapped: pkgs.callPackage ./packages/scroll.nix { inherit unwrapped; };
 
-          mkOptionsDoc = module: import ./packages/options-doc.nix { inherit pkgs lib module; };
+          mkOptionsDoc = module: pkgs.callPackage ./packages/options-doc.nix { inherit module; };
         in
         rec {
           scroll-stable-unwrapped = mkScroll inputs.scroll-stable;
@@ -64,18 +52,9 @@
           home-manager-options-doc = mkOptionsDoc homeModules.default;
 
           # Regenerate the docs: `nix run .#docs`
-          docs = pkgs.writeShellScriptBin "docs" ''
-            set -e
-            mkdir -p docs/
-            cp -f ${nixos-options-doc} docs/OS-OPTIONS.md
-            cp -f ${home-manager-options-doc} docs/HM-OPTIONS.md
-            chmod 644 docs/{OS,HM}-OPTIONS.md
+          docs = pkgs.callPackage ./packages/docs.nix { inherit nixos-options-doc home-manager-options-doc; };
 
-            # Remove "Declared by" sections
-            ${lib.getExe pkgs.gnused} -i '/^\*Declared by:\*$/,/^[[:space:]]*$/d' docs/{OS,HM}-OPTIONS.md
-          '';
-
-          default = self.packages.${pkgs.stdenv.hostPlatform.system}.scroll-stable;
+          default = scroll-stable;
         }
       );
 

@@ -1,2 +1,2 @@
-{ pkgs, unwrapped }:
-pkgs.sway.override { sway-unwrapped = unwrapped; }
+{ sway, unwrapped, ... }:
+sway.override { sway-unwrapped = unwrapped; }
